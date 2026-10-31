@@ -212,7 +212,6 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
     onData.forEach((fn) => { try { fn(); } catch (e) { console.error(e); } });
     draws.forEach((fn, name) => {
       document.querySelectorAll(`[data-draw="${name}"]`).forEach((el) => {
-        if (el.closest('[hidden]')) return;
         try { fn(el); } catch (e) { console.error(name, e); }
       });
     });
@@ -912,7 +911,7 @@ dash.calc('hire_model', {
 <script>
 /* ---------- Shared helpers ---------- */
 (() => {
-  const compact = new Intl.NumberFormat('en', {notation: 'compact', maximumFractionDigits: 1});
+  const compact = new Intl.NumberFormat('en', {notation: 'compact', maximumFractionDigits: 2});
   const money = d3.format('$,.0f'), money2 = d3.format('$,.2f');
   const k = (v) => (Math.abs(v) < 10000 ? money(v) : (v < 0 ? '−$' : '$') + compact.format(Math.abs(v)));
   const sign = (v, s) => (v > 0 ? '+' : v < 0 ? '−' : '') + s;
