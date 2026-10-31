@@ -140,8 +140,8 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
   .bv-person-top { display: flex; justify-content: space-between; gap: var(--cds-gap-sm); font-size: var(--cds-font-size-body); }
   .bv-person-top b { font-variant-numeric: tabular-nums; }
   .bv-person-bar { display: flex; height: 12px; gap: 1px; }
-  .bv-person-bar > div:first-child { border-radius: 3px 0 0 3px; }
-  .bv-person-bar > div:last-child { border-radius: 0 3px 3px 0; }
+  .bv-person-bar > span:first-child { border-radius: 3px 0 0 3px; }
+  .bv-person-bar > span:last-child { border-radius: 0 3px 3px 0; }
   .bv-person-sub { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); font-variant-numeric: tabular-nums; }
   .bv-partbar { height: 6px; border-radius: 3px; background: var(--cds-chart-grid); overflow: hidden; }
   .bv-partbar > i { display: block; height: 100%; border-radius: 3px; }
@@ -253,6 +253,54 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
   [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
 
 .bv-tab { padding: 0 8px; flex: 1 1 auto; font-size: .875rem; }
+
+  /* Visual hierarchy: one primary comparison per section. */
+  .bv-bank-visual { grid-column: 1 / -1; display: grid; gap: 8px; }
+  .bv-cash-bar { display: flex; align-items: stretch; width: 100%; min-height: 44px; padding: 9px 0; border: 0; background: transparent; cursor: pointer; }
+  .bv-cash-bar span { display: block; height: 26px; }
+  .bv-cash-reserved { background: var(--color-fg-muted); }
+  .bv-cash-remaining { background: var(--brand); }
+  .bv-cash-key { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 5px 12px; font-size: .75rem; color: var(--color-fg-muted); }
+  .bv-cash-key b { color: var(--brand); }
+  .bv-ov-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .bv-ov-card { padding: 14px 8px; }
+  .bv-ov-value { font-size: clamp(1.2rem,5.8vw,2rem); }
+  .bv-ov-top .bv-pill { font-size: .6875rem; padding-inline: 5px; }
+  .bv-ov-top .bv-kpi-label { font-size: .75rem; }
+  .bv-metric-strip .bv-kpi--hero { grid-column: auto; }
+  .bv-metric-strip .bv-kpi--hero .bv-kpi-value { font-size: var(--cds-font-size-title); }
+  .bv-walk { display: grid; gap: 12px; }
+  .bv-walk-row { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 5px 8px; font-size: .8125rem; }
+  .bv-walk-row b { font-variant-numeric: tabular-nums; }
+  .bv-walk-track { grid-column: 1 / -1; height: 20px; position: relative; background: color-mix(in srgb,var(--color-fg) 4%,transparent); }
+  .bv-walk-track i { position: absolute; top: 0; height: 100%; min-width: 1px; }
+  .bv-walk-zero { position: absolute; height: 100%; border-left: 1px solid var(--cds-chart-axis); }
+  .bv-walk-total { padding-block: 6px; border-block: 1px solid var(--color-border-line); font-weight: 600; }
+  .bv-bullet { position: relative; height: 14px; margin-top: 10px; max-width: 300px; background: color-mix(in srgb,var(--color-fg) 7%,transparent); border-radius: 1px; }
+  .bv-bullet-target { position: absolute; top: -3px; height: 20px; width: 2px; background: var(--color-fg-muted); }
+  .bv-bullet-value { position: absolute; top: 2px; width: 10px; height: 10px; border: 2px solid var(--color-panel); border-radius: 50%; transform: translateX(-50%); }
+  .bv-chart-switch { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .bv-chart-switch button { min-height: 44px; padding: 8px 12px; border: 1px solid var(--color-border-line); border-radius: 3px; background: transparent; color: var(--color-fg-muted); font: inherit; font-size: .8125rem; cursor: pointer; }
+  .bv-chart-switch button[aria-pressed="true"] { color: var(--brand); border-color: var(--brand); background: var(--brand-soft); }
+  .bv-channel { border-bottom: 1px solid var(--color-border-line); }
+  .bv-channel summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 8px; padding-block: 12px; font-size: .8125rem; }
+  .bv-channel summary::-webkit-details-marker { display: none; }
+  .bv-channel summary > span:first-child::before { content: '+'; display: inline-block; width: 16px; color: var(--brand); }
+  .bv-channel[open] summary > span:first-child::before { content: '−'; }
+  .bv-channel-track { grid-column: 1 / -1; height: 10px; background: color-mix(in srgb,var(--color-fg) 5%,transparent); }
+  .bv-channel-track i { display: block; height: 100%; background: var(--s0); }
+  .bv-channel-detail, .bv-person-breakdown { font-size: .8125rem; line-height: 1.6; color: var(--color-fg-muted); padding-bottom: 12px; }
+  .bv-person > summary { list-style: none; cursor: pointer; display: grid; gap: 8px; }
+  .bv-person > summary::-webkit-details-marker { display: none; }
+  .bv-person-top > span::before { content: '+'; margin-right: 8px; color: var(--brand); }
+  .bv-person[open] .bv-person-top > span::before { content: '−'; }
+  .bv-person-bar { height: 16px; }
+  .bv-person-breakdown { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; margin: 8px 0 0; }
+  .bv-person-breakdown dd { margin: 0; font-variant-numeric: tabular-nums; }
+  .bv-hire-annotation { display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: .8125rem; }
+  .bv-hire-annotation b { color: var(--color-bad); }
+  .bv-chart-note { font-size: .75rem; color: var(--color-fg-muted); }
+  @media (min-width: 760px) { .bv-metric-strip { grid-template-columns: repeat(3,minmax(0,1fr)); } .bv-walk-row { grid-template-columns: minmax(140px,1fr) minmax(0,2fr) 90px; align-items: center; } .bv-walk-track { grid-row: 1; grid-column: 2; } .bv-walk-row b { grid-column: 3; grid-row: 1; text-align: right; } }
 </style>
 <script src="d3.v7.9.0.min.js"></script>
 <script>
@@ -260,7 +308,7 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
   const DATA = {"monthly":[{"month":"2024-11","revenue":138800.0,"materials":48500.0,"direct_labor":37850.0,"office_team":24630.0,"vehicles":3040.0,"crew_tools_tech":3150.0,"marketing":11600.0,"rent_utilities":5910.0,"business_insurance":3900,"shared_software":1400,"other":3750.0,"depreciation":4880.0,"interest":860.0,"capex":0,"loan_proceeds":0,"loan_principal":2800,"owner_distributions":10000},{"month":"2024-12","revenue":143700.0,"materials":51900.0,"direct_labor":38090.0,"office_team":24630.0,"vehicles":3060.0,"crew_tools_tech":3150.0,"marketing":11800.0,"rent_utilities":5930.0,"business_insurance":3900,"shared_software":1400,"other":3470.0,"depreciation":4880.0,"interest":860.0,"capex":0,"loan_proceeds":0,"loan_principal":2800,"owner_distributions":10000},{"month":"2025-01","revenue":140100.0,"materials":50500.0,"direct_labor":37970.0,"office_team":24630.0,"vehicles":3050.0,"crew_tools_tech":3150.0,"marketing":11700.0,"rent_utilities":5920.0,"business_insurance":3900,"shared_software":1400,"other":3140.0,"depreciation":4880.0,"interest":860.0,"capex":0,"loan_proceeds":0,"loan_principal":2800,"owner_distributions":10000},{"month":"2025-02","revenue":129000.0,"materials":44800.0,"direct_labor":37500.0,"office_team":24630.0,"vehicles":3030.0,"crew_tools_tech":3150.0,"marketing":11400.0,"rent_utilities":5890.0,"business_insurance":3900,"shared_software":1400,"other":3190.0,"depreciation":4880.0,"interest":860.0,"capex":22000,"loan_proceeds":0,"loan_principal":2800,"owner_distributions":10000},{"month":"2025-03","revenue":146800.0,"materials":54300.0,"direct_labor":38090.0,"office_team":24630.0,"vehicles":3060.0,"crew_tools_tech":3150.0,"marketing":11800.0,"rent_utilities":5930.0,"business_insurance":3900,"shared_software":1400,"other":3220.0,"depreciation":4880.0,"interest":860.0,"capex":0,"loan_proceeds":0,"loan_principal":2800,"owner_distributions":10000},{"month":"2025-04","revenue":168000.0,"materials":61100.0,"direct_labor":38850.0,"office_team":24630.0,"vehicles":3100.0,"crew_tools_tech":3150.0,"marketing":12300.0,"rent_utilities":5980.0,"business_insurance":3900,"shared_software":1400,"other":4050.0,"depreciation":4880.0,"interest":860.0,"capex":0,"loan_proceeds":0,"loan_principal":2800,"owner_distributions":35000},{"month":"2025-05","revenue":202400.0,"materials":72200.0,"direct_labor":39850.0,"office_team":24630.0,"vehicles":3150.0,"crew_tools_tech":3150.0,"marketing":12900.0,"rent_utilities":6050.0,"business_insurance":3900,"shared_software":1400,"other":4080.0,"depreciation":4880.0,"interest":860.0,"capex":0,"loan_proceeds":0,"loan_principal":2800,"owner_distributions":10000},{"month":"2025-06","revenue":231000.0,"materials":85600.0,"direct_labor":41020.0,"office_team":24630.0,"vehicles":3210.0,"crew_tools_tech":3150.0,"marketing":13700.0,"rent_utilities":6130.0,"business_insurance":3900,"shared_software":1400,"other":3390.0,"depreciation":4880.0,"interest":860.0,"capex":0,"loan_proceeds":0,"loan_principal":2800,"owner_distributions":10000},{"month":"2025-07","revenue":246400.0,"materials":85900.0,"direct_labor":41490.0,"office_team":24630.0,"vehicles":3240.0,"crew_tools_tech":3150.0,"marketing":14000.0,"rent_utilities":6160.0,"business_insurance":3900,"shared_software":1400,"other":3410.0,"depreciation":4880.0,"interest":860.0,"capex":0,"loan_proceeds":0,"loan_principal":2800,"owner_distributions":10000},{"month":"2025-08","revenue":252900.0,"materials":88600.0,"direct_labor":41380.0,"office_team":24630.0,"vehicles":3230.0,"crew_tools_tech":3150.0,"marketing":13900.0,"rent_utilities":6150.0,"business_insurance":3900,"shared_software":1400,"other":3680.0,"depreciation":4880.0,"interest":860.0,"capex":0,"loan_proceeds":0,"loan_principal":2800,"owner_distributions":10000},{"month":"2025-09","revenue":195900.0,"materials":69800.0,"direct_labor":39620.0,"office_team":24630.0,"vehicles":3140.0,"crew_tools_tech":3150.0,"marketing":12800.0,"rent_utilities":6030.0,"business_insurance":3900,"shared_software":1400,"other":3650.0,"depreciation":4880.0,"interest":860.0,"capex":0,"loan_proceeds":0,"loan_principal":2800,"owner_distributions":10000},{"month":"2025-10","revenue":141900.0,"materials":49200.0,"direct_labor":38030.0,"office_team":24630.0,"vehicles":3050.0,"crew_tools_tech":3150.0,"marketing":11800.0,"rent_utilities":5920.0,"business_insurance":3900,"shared_software":1400,"other":3310.0,"depreciation":4880.0,"interest":860.0,"capex":0,"loan_proceeds":0,"loan_principal":2800,"owner_distributions":10000},{"month":"2025-11","revenue":162000.0,"materials":58000.0,"direct_labor":42060.0,"office_team":27370.0,"vehicles":3380.0,"crew_tools_tech":3500.0,"marketing":13200.0,"rent_utilities":5910.0,"business_insurance":3900,"shared_software":1400,"other":3410.0,"depreciation":5300.0,"interest":900.0,"capex":0,"loan_proceeds":0,"loan_principal":3000,"owner_distributions":10000},{"month":"2025-12","revenue":169400.0,"materials":60700.0,"direct_labor":42320.0,"office_team":27370.0,"vehicles":3400.0,"crew_tools_tech":3500.0,"marketing":13400.0,"rent_utilities":5930.0,"business_insurance":3900,"shared_software":1400,"other":3400.0,"depreciation":5300.0,"interest":900.0,"capex":0,"loan_proceeds":0,"loan_principal":3000,"owner_distributions":10000},{"month":"2026-01","revenue":167300.0,"materials":61200.0,"direct_labor":42190.0,"office_team":27370.0,"vehicles":3390.0,"crew_tools_tech":3500.0,"marketing":13300.0,"rent_utilities":5920.0,"business_insurance":3900,"shared_software":1400,"other":3340.0,"depreciation":5300.0,"interest":900.0,"capex":0,"loan_proceeds":0,"loan_principal":3000,"owner_distributions":10000},{"month":"2026-02","revenue":148600.0,"materials":53600.0,"direct_labor":41670.0,"office_team":27370.0,"vehicles":3360.0,"crew_tools_tech":3500.0,"marketing":13000.0,"rent_utilities":5890.0,"business_insurance":3900,"shared_software":1400,"other":3980.0,"depreciation":5300.0,"interest":900.0,"capex":0,"loan_proceeds":0,"loan_principal":3000,"owner_distributions":10000},{"month":"2026-03","revenue":170800.0,"materials":60400.0,"direct_labor":42320.0,"office_team":27370.0,"vehicles":3400.0,"crew_tools_tech":3500.0,"marketing":13400.0,"rent_utilities":5930.0,"business_insurance":3900,"shared_software":1400,"other":4080.0,"depreciation":5300.0,"interest":900.0,"capex":52000,"loan_proceeds":45000,"loan_principal":3000,"owner_distributions":10000},{"month":"2026-04","revenue":190800.0,"materials":68200.0,"direct_labor":43170.0,"office_team":27370.0,"vehicles":3440.0,"crew_tools_tech":3500.0,"marketing":14000.0,"rent_utilities":5980.0,"business_insurance":3900,"shared_software":1400,"other":3860.0,"depreciation":5300.0,"interest":900.0,"capex":0,"loan_proceeds":0,"loan_principal":3000,"owner_distributions":35000},{"month":"2026-05","revenue":225400.0,"materials":81100.0,"direct_labor":44280.0,"office_team":27370.0,"vehicles":3500.0,"crew_tools_tech":3500.0,"marketing":14700.0,"rent_utilities":6050.0,"business_insurance":3900,"shared_software":1400,"other":3140.0,"depreciation":5300.0,"interest":900.0,"capex":0,"loan_proceeds":0,"loan_principal":3000,"owner_distributions":10000},{"month":"2026-06","revenue":274000.0,"materials":100800.0,"direct_labor":45580.0,"office_team":27370.0,"vehicles":3570.0,"crew_tools_tech":3500.0,"marketing":15500.0,"rent_utilities":6130.0,"business_insurance":3900,"shared_software":1400,"other":3670.0,"depreciation":5300.0,"interest":900.0,"capex":8000,"loan_proceeds":0,"loan_principal":3000,"owner_distributions":10000},{"month":"2026-07","revenue":294200.0,"materials":104300.0,"direct_labor":46100.0,"office_team":27370.0,"vehicles":3600.0,"crew_tools_tech":3500.0,"marketing":15900.0,"rent_utilities":6160.0,"business_insurance":3900,"shared_software":1400,"other":3800.0,"depreciation":5300.0,"interest":900.0,"capex":0,"loan_proceeds":0,"loan_principal":3000,"owner_distributions":10000},{"month":"2026-08","revenue":285200.0,"materials":103400.0,"direct_labor":45970.0,"office_team":27370.0,"vehicles":3590.0,"crew_tools_tech":3500.0,"marketing":15800.0,"rent_utilities":6150.0,"business_insurance":3900,"shared_software":1400,"other":3560.0,"depreciation":5300.0,"interest":900.0,"capex":0,"loan_proceeds":0,"loan_principal":3000,"owner_distributions":10000},{"month":"2026-09","revenue":226500.0,"materials":84600.0,"direct_labor":44020.0,"office_team":27370.0,"vehicles":3490.0,"crew_tools_tech":3500.0,"marketing":14500.0,"rent_utilities":6030.0,"business_insurance":3900,"shared_software":1400,"other":3570.0,"depreciation":5300.0,"interest":900.0,"capex":0,"loan_proceeds":0,"loan_principal":3000,"owner_distributions":10000},{"month":"2026-10","revenue":168100.0,"materials":58300.0,"direct_labor":42260.0,"office_team":27382.0,"vehicles":3380.0,"crew_tools_tech":3500.0,"marketing":13300.0,"rent_utilities":5920.0,"business_insurance":3900,"shared_software":1400,"other":3800.0,"depreciation":5300.0,"interest":900.0,"capex":0,"loan_proceeds":0,"loan_principal":3000,"owner_distributions":10000}],"channels":[{"channel":"Google Ads","spend":52000,"leads":760,"new_customers":248,"revenue":384000},{"channel":"Google Local Services Ads","spend":31000,"leads":520,"new_customers":196,"revenue":298000},{"channel":"SEO and website","spend":21000,"leads":380,"new_customers":142,"revenue":228000},{"channel":"Mailers and door hangers","spend":24000,"leads":230,"new_customers":61,"revenue":102000},{"channel":"Facebook and Instagram","spend":18000,"leads":410,"new_customers":74,"revenue":86000},{"channel":"Home shows and sponsorships","spend":14000,"leads":95,"new_customers":22,"revenue":61000},{"channel":"Referral rewards","spend":6500,"leads":160,"new_customers":98,"revenue":176000},{"channel":"Truck wraps and yard signs","spend":3500,"leads":60,"new_customers":24,"revenue":41000}],"team":[{"id":"E01","role":"Owner / general manager","dept":"Owner","wages":95000,"health_plan":"family","retirement_match":0.03,"workers_comp_per_100":0.15,"vehicle_operating":4500,"truck_ownership":9600,"tools":0,"software":1200,"phone":900,"training":1000},{"id":"E02","role":"Lead HVAC technician","dept":"Field","wages":78000,"health_plan":"family","retirement_match":0.03,"workers_comp_per_100":4.1,"vehicle_operating":6500,"truck_ownership":9600,"tools":2500,"software":600,"phone":900,"training":1500},{"id":"E03","role":"HVAC technician","dept":"Field","wages":62000,"health_plan":"employee","retirement_match":0.03,"workers_comp_per_100":4.1,"vehicle_operating":6500,"truck_ownership":9600,"tools":2000,"software":600,"phone":900,"training":1500},{"id":"E04","role":"HVAC technician","dept":"Field","wages":58000,"health_plan":"employee","retirement_match":0.0,"workers_comp_per_100":4.1,"vehicle_operating":6500,"truck_ownership":9600,"tools":2000,"software":600,"phone":900,"training":1500},{"id":"E05","role":"Plumber","dept":"Field","wages":66000,"health_plan":"employee","retirement_match":0.03,"workers_comp_per_100":3.6,"vehicle_operating":6500,"truck_ownership":9600,"tools":2200,"software":600,"phone":900,"training":1200},{"id":"E06","role":"Install lead","dept":"Field","wages":64000,"health_plan":"family","retirement_match":0.03,"workers_comp_per_100":4.1,"vehicle_operating":6500,"truck_ownership":9600,"tools":1800,"software":600,"phone":900,"training":1000},{"id":"E07","role":"Installer","dept":"Field","wages":44000,"health_plan":"none","retirement_match":0.0,"workers_comp_per_100":4.1,"vehicle_operating":0,"truck_ownership":0,"tools":800,"software":300,"phone":600,"training":800},{"id":"E08","role":"Apprentice","dept":"Field","wages":38000,"health_plan":"none","retirement_match":0.0,"workers_comp_per_100":4.1,"vehicle_operating":0,"truck_ownership":0,"tools":600,"software":300,"phone":600,"training":2000},{"id":"E09","role":"Comfort advisor (sales)","dept":"Sales","wages":72000,"health_plan":"employee","retirement_match":0.03,"workers_comp_per_100":0.6,"vehicle_operating":4500,"truck_ownership":7200,"tools":0,"software":1200,"phone":900,"training":1000},{"id":"E10","role":"Dispatcher / CSR","dept":"Office","wages":42000,"health_plan":"employee","retirement_match":0.03,"workers_comp_per_100":0.15,"vehicle_operating":0,"truck_ownership":0,"tools":0,"software":1500,"phone":600,"training":600},{"id":"E11","role":"Office manager","dept":"Office","wages":52000,"health_plan":"employee","retirement_match":0.03,"workers_comp_per_100":0.15,"vehicle_operating":0,"truck_ownership":0,"tools":0,"software":1200,"phone":600,"training":600}],"rates":[{"key":"ss_rate","value":0.062,"label":"Social Security, employer share","basis":"2026 federal rate (SSA)"},{"key":"ss_wage_base","value":184500,"label":"Social Security wage cap","basis":"2026 federal (SSA)"},{"key":"medicare_rate","value":0.0145,"label":"Medicare, employer share","basis":"Federal, no wage cap"},{"key":"futa_rate","value":0.006,"label":"Federal unemployment (FUTA) after credit","basis":"Federal; Texas has no credit reduction"},{"key":"futa_wage_base","value":7000,"label":"FUTA wage cap","basis":"Federal"},{"key":"suta_rate","value":0.027,"label":"Texas unemployment (SUTA), new-employer rate","basis":"Texas Workforce Commission; your assigned rate may differ"},{"key":"suta_wage_base","value":9000,"label":"Texas SUTA wage cap","basis":"Texas Workforce Commission"},{"key":"tx_franchise_threshold","value":2650000,"label":"Texas franchise tax no-tax-due revenue","basis":"2026 report (Texas Comptroller)"},{"key":"health_employee_monthly","value":600,"label":"Health plan, employer share, employee only","basis":"Sample quote"},{"key":"health_family_monthly","value":1350,"label":"Health plan, employer share, family","basis":"Sample quote"},{"key":"paid_hours","value":2080,"label":"Paid hours per year","basis":"40 h x 52 wk"},{"key":"nonproductive_hours","value":160,"label":"Paid time off, holidays and training","basis":"10 PTO days + 7 holidays + 3 training days"},{"key":"pay_low","value":0.9,"label":"Pay level: below market","basis":"Multiplier on market pay"},{"key":"pay_high","value":1.15,"label":"Pay level: above market","basis":"Multiplier on market pay"},{"key":"owner_tax_rate","value":0.3,"label":"Owner income tax set-aside rate on S corp profit","basis":"Sample; your CPA sets this"},{"key":"card_fee_rate","value":0.028,"label":"Card and consumer financing fees, share of revenue","basis":"Sample"},{"key":"callback_rate","value":0.02,"label":"Callbacks and warranty work for a new hire, share of their revenue","basis":"Sample"},{"key":"tx_ez_rate","value":0.00331,"label":"Texas franchise tax E-Z computation rate on total revenue","basis":"Texas Tax Code 171.1016"},{"key":"customer_years","value":4,"label":"Years a typical customer stays","basis":"Sample"},{"key":"repeat_revenue_per_year","value":450,"label":"Repeat revenue per customer per year","basis":"Sample (maintenance and repairs)"}],"balance":[{"as_of":"2025-10-31","cash":227702.0,"accounts_receivable":182000,"ar_over_30":52000,"ar_over_60":21000,"inventory":39000,"prepaid_other":11000,"fixed_assets_cost":426000,"accumulated_depreciation":171000,"accounts_payable":66000,"ap_due_14d":33000,"credit_cards":14000,"accrued_wages":19000,"accrued_payroll_taxes":24000,"sales_tax_payable":3000,"owner_tax_paid_ytd":20000,"customer_deposits":41000,"membership_deferred":29000,"current_debt":33000,"long_term_debt":148000,"credit_line_limit":150000,"credit_line_used":0},{"as_of":"2026-10-31","cash":318000,"accounts_receivable":231000,"ar_over_30":76000,"ar_over_60":38000,"inventory":48000,"prepaid_other":12000,"fixed_assets_cost":486000,"accumulated_depreciation":234600.0,"accounts_payable":74000,"ap_due_14d":41000,"credit_cards":18000,"accrued_wages":22000,"accrued_payroll_taxes":28000,"sales_tax_payable":3500,"owner_tax_paid_ytd":25000,"customer_deposits":64000,"membership_deferred":38000,"current_debt":37000,"long_term_debt":153000,"credit_line_limit":150000,"credit_line_used":0}],"hire_options":[{"role":"HVAC service technician","dept":"Field","market_pay":62000,"health_plan":"employee","retirement_match":0.03,"workers_comp_per_100":4.1,"vehicle":11000,"tools":2000,"software":600,"phone":900,"training":1500,"recruiting":3500,"onboarding":2500,"equipment":4000,"revenue_capacity_monthly":20000,"ramp_months":4,"needs_leads":true,"how_it_pays":"Runs service and repair calls. New work comes from new leads."},{"role":"Plumber","dept":"Field","market_pay":66000,"health_plan":"employee","retirement_match":0.03,"workers_comp_per_100":3.6,"vehicle":11000,"tools":2200,"software":600,"phone":900,"training":1200,"recruiting":3500,"onboarding":2000,"equipment":4500,"revenue_capacity_monthly":17000,"ramp_months":3,"needs_leads":true,"how_it_pays":"Adds a second plumbing truck. New work comes from new leads."},{"role":"Installer","dept":"Field","market_pay":46000,"health_plan":"employee","retirement_match":0.0,"workers_comp_per_100":4.1,"vehicle":0,"tools":800,"software":300,"phone":600,"training":800,"recruiting":1500,"onboarding":1200,"equipment":1500,"revenue_capacity_monthly":14000,"ramp_months":2,"needs_leads":true,"how_it_pays":"Lets the install crew take more jobs each month."},{"role":"Comfort advisor (sales)","dept":"Sales","market_pay":70000,"health_plan":"employee","retirement_match":0.03,"workers_comp_per_100":0.6,"vehicle":7500,"tools":0,"software":1200,"phone":900,"training":1000,"recruiting":4500,"onboarding":2000,"equipment":1800,"revenue_capacity_monthly":18000,"ramp_months":5,"needs_leads":true,"how_it_pays":"Closes more of the replacement quotes you already run."},{"role":"Dispatcher / CSR","dept":"Office","market_pay":42000,"health_plan":"employee","retirement_match":0.03,"workers_comp_per_100":0.15,"vehicle":0,"tools":0,"software":1500,"phone":600,"training":600,"recruiting":1200,"onboarding":800,"equipment":1600,"revenue_capacity_monthly":9000,"ramp_months":2,"needs_leads":false,"how_it_pays":"Answers calls that now go to voicemail. No new leads needed."}]};
   const calcs = [], draws = new Map(), onData = [];
   const results = {};
-  const DEFAULTS = {hire_role: 'HVAC service technician', hire_level: 'market'};
+  const DEFAULTS = {hire_role: 'HVAC service technician', hire_level: 'market', channel_metric: 'return_per_dollar'};
   let params = {...DEFAULTS};
   const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
   const compute = () => {
@@ -349,22 +397,12 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
     <div class="bv-hero">
       <div><p class="bv-eyebrow">The owner's view · Last 12 months</p><h2><span data-draw="v" data-source="overview" data-field="verdict" data-row="0" data-fmt="text">...</span></h2></div>
       <dl class="bv-bank-gap"><div><dt>In the bank</dt><dd><span data-draw="v" data-source="ttm" data-field="cash" data-row="0" data-fmt="moneyk">...</span></dd></div><div><dt>After reserves</dt><dd class="bv-available"><span data-draw="v" data-source="ttm" data-field="free_cash" data-row="0" data-fmt="moneyk">...</span></dd></div></dl>
-      <details class="bv-hero-detail"><summary>What is reserved?</summary><p><span data-draw="v" data-source="ttm" data-field="owed_bills" data-row="0" data-fmt="moneyk">...</span> bills and cards · <span data-draw="v" data-source="ttm" data-field="owed_payroll" data-row="0" data-fmt="moneyk">...</span> payroll and taxes · <span data-draw="v" data-source="ttm" data-field="customer_money" data-row="0" data-fmt="moneyk">...</span> customer advances · <span data-draw="v" data-source="ttm" data-field="tax_reserve" data-row="0" data-fmt="moneyk">...</span> owner tax estimate.</p></details>
-      <p class="bv-recent">Latest month <b><span data-draw="v" data-source="ttm" data-field="latest_profit" data-row="0" data-fmt="smoney">...</span></b><span>· 12-month profit <span data-draw="v" data-source="ttm" data-field="net_income" data-row="0" data-fmt="moneyk">...</span></span></p>
+      <div class="bv-bank-visual" data-draw="bank_bar" data-source="ttm">...</div>
+      <details class="bv-hero-detail" id="reserve-details"><summary>Reserve breakdown</summary><p><span data-draw="v" data-source="ttm" data-field="owed_bills" data-row="0" data-fmt="moneyk">...</span> bills and cards · <span data-draw="v" data-source="ttm" data-field="owed_payroll" data-row="0" data-fmt="moneyk">...</span> payroll and taxes · <span data-draw="v" data-source="ttm" data-field="customer_money" data-row="0" data-fmt="moneyk">...</span> customer advances · <span data-draw="v" data-source="ttm" data-field="tax_reserve" data-row="0" data-fmt="moneyk">...</span> owner tax estimate.</p></details>
     </div>
     <div class="bv-next"><p class="bv-eyebrow">Start here</p><p class="bv-next-title"><span data-draw="v" data-source="focus" data-field="title" data-row="0" data-fmt="text">...</span></p><p class="bv-sub"><span data-draw="v" data-source="focus" data-field="detail" data-row="0" data-fmt="text">...</span></p><button class="bv-more" type="button" data-goto="finance">Review finances <span aria-hidden="true">↗</span></button></div>
 
     <div class="bv-ov-grid">
-      <div class="bv-ov-card" id="ov-cash">
-        <div class="bv-ov-top"><p class="bv-kpi-label">Cash after reserves</p><span class="bv-pill" data-draw="opill" data-source="overview" data-field="cash_label" data-status="cash_status" data-row="0">...</span></div>
-        <p class="bv-ov-value"><span data-draw="v" data-source="ttm" data-field="free_cash" data-row="0" data-fmt="moneyk">...</span></p>
-        <p class="bv-kpi-sub">Of <span data-draw="v" data-source="ttm" data-field="cash" data-row="0" data-fmt="moneyk">...</span> in the bank</p>
-      </div>
-      <div class="bv-ov-card" id="ov-next14">
-        <div class="bv-ov-top"><p class="bv-kpi-label">Next 14 days, estimate</p><span class="bv-pill" data-draw="opill" data-source="overview" data-field="next14_label" data-status="next14_status" data-row="0">...</span></div>
-        <p class="bv-ov-value"><span data-draw="v" data-source="ttm" data-field="next14" data-row="0" data-fmt="moneyk">...</span></p>
-        <p class="bv-kpi-sub">Payment dates needed for coverage</p>
-      </div>
       <div class="bv-ov-card" id="ov-cushion">
         <div class="bv-ov-top"><p class="bv-kpi-label">Cash-only buffer</p><span class="bv-pill" data-draw="opill" data-source="overview" data-field="cushion_label" data-status="cushion_status" data-row="0">...</span></div>
         <p class="bv-ov-value"><span data-draw="v" data-source="ttm" data-field="runway" data-row="0" data-fmt="num1">...</span> mo</p>
@@ -375,7 +413,11 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
         <p class="bv-ov-value"><span data-draw="v" data-source="ttm" data-field="net_income" data-row="0" data-fmt="moneyk">...</span></p>
         <p class="bv-kpi-sub"><span data-draw="v" data-source="ttm" data-field="net_margin" data-row="0" data-fmt="pct">...</span> margin · bank change <span data-draw="v" data-source="ttm" data-field="cash_change" data-row="0" data-fmt="smoneyk">...</span></p>
       </div>
+      <div class="bv-ov-card" id="ov-latest"><div class="bv-ov-top"><p class="bv-kpi-label">Latest month profit</p></div><p class="bv-ov-value"><span data-draw="v" data-source="ttm" data-field="latest_profit" data-row="0" data-fmt="smoneyk">...</span></p></div>
     </div>
+
+    <details class="bv-fold bv-note"><summary>Next 14 days: <span data-draw="v" data-source="ttm" data-field="next14" data-row="0" data-fmt="moneyk">...</span> estimated payments</summary><p>Payroll, supplier bills and loan payments. Actual payment and collection dates are needed to assess coverage.</p></details>
+    <div class="bv-card" id="card-profit-trend"><h2 class="bv-h2">Is profit improving?</h2><div class="bv-chart" data-draw="profit_trend" data-source="monthly_calc">...</div></div>
 
     <div class="bv-card" id="card-actions">
       <h2 class="bv-h2">Top things to fix</h2>
@@ -433,8 +475,10 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
 
     <div class="bv-grid">
       <div class="bv-card bv-card--wide" id="card-bridge">
-        <h2 class="bv-h2">Where your profit went</h2>
+        <h2 class="bv-h2">Why did profit differ from bank cash?</h2>
         <p class="bv-sub">From profit to the change in your bank balance, last 12 months: your cash flow statement in plain words.</p>
+        <div class="bv-walk" data-draw="cash_walk" data-source="bridge">...</div>
+        <details class="bv-fold"><summary>Cash-flow entries</summary>
         <div class="bv-wf">
           <div class="bv-wf-row bv-wf-row--total" data-step="profit"><span>Profit</span><b data-draw="v" data-source="bridge" data-field="amount" data-where="step=profit" data-fmt="smoney">...</b><div class="bv-wf-bar" data-draw="wf" data-source="bridge" data-where="step=profit">...</div></div>
           <div class="bv-wf-row" data-step="depreciation"><span>Add back depreciation, a cost on paper only</span><b data-draw="v" data-source="bridge" data-field="amount" data-where="step=depreciation" data-fmt="smoney">...</b><div class="bv-wf-bar" data-draw="wf" data-source="bridge" data-where="step=depreciation">...</div></div>
@@ -450,6 +494,7 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
           <div class="bv-wf-row bv-wf-row--total bv-wf-row--end" data-step="cash_change"><span>Change in your bank balance</span><b data-draw="v" data-source="bridge" data-field="amount" data-where="step=cash_change" data-fmt="smoney">...</b><div class="bv-wf-bar" data-draw="wf" data-source="bridge" data-where="step=cash_change">...</div></div>
         </div>
         <button type="button" class="bv-more" data-toggle="bridge" aria-expanded="false"><span data-when="closed">Show every step</span><span data-when="open" hidden>Show the three biggest drains only</span></button>
+        </details>
       </div>
 
       <div class="bv-card" id="card-dollar">
@@ -476,39 +521,39 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
       </div>
 
       <div class="bv-card bv-card--wide" id="card-checks">
-        <h2 class="bv-h2">Health checks</h2>
-        <p class="bv-sub">Sample policy targets. Open all checks for the full picture; confirm targets with your CPA.</p>
+        <h2 class="bv-h2">Where are we against policy targets?</h2>
+        <p class="bv-sub">Each row uses its own scale. The dot is actual; the tick is the policy target.</p>
         <div class="bv-checks">
           <p class="bv-group">Cash</p>
-          <div class="bv-check" data-metric="runway"><div><p class="bv-check-name">Cash cushion</p><p class="bv-check-def">Cash after reserves divided by monthly non-material cash costs and principal. Excludes uncollected invoices.</p></div>
+          <div class="bv-check" data-metric="runway"><div><p class="bv-check-name">Cash cushion</p><p class="bv-check-def">Cash after reserves divided by monthly non-material cash costs and principal. Excludes uncollected invoices.</p><div class="bv-bullet" data-draw="health_bullet" data-source="health" data-where="metric=runway" aria-hidden="true"></div></div>
             <div class="bv-check-num"><b class="bv-check-val"><span data-draw="v" data-source="health" data-field="value" data-where="metric=runway" data-fmt="num1">...</span> mo</b><span class="bv-check-target">target ≥ <span data-draw="v" data-source="health" data-field="target" data-where="metric=runway" data-fmt="num1">...</span> mo</span><span class="bv-pill" data-draw="status" data-source="health" data-field="status" data-where="metric=runway">...</span></div></div>
-          <div class="bv-check" data-metric="fcf_margin"><div><p class="bv-check-name">Free cash flow margin</p><p class="bv-check-def">Cash left from each $1 of revenue after running the business and buying equipment.</p></div>
+          <div class="bv-check" data-metric="fcf_margin"><div><p class="bv-check-name">Free cash flow margin</p><p class="bv-check-def">Cash left from each $1 of revenue after running the business and buying equipment.</p><div class="bv-bullet" data-draw="health_bullet" data-source="health" data-where="metric=fcf_margin" aria-hidden="true"></div></div>
             <div class="bv-check-num"><b class="bv-check-val" data-draw="v" data-source="health" data-field="value" data-where="metric=fcf_margin" data-fmt="pct">...</b><span class="bv-check-target">target ≥ <span data-draw="v" data-source="health" data-field="target" data-where="metric=fcf_margin" data-fmt="pct0">...</span></span><span class="bv-pill" data-draw="status" data-source="health" data-field="status" data-where="metric=fcf_margin">...</span></div></div>
-          <div class="bv-check" data-metric="draws_vs_cash"><div><p class="bv-check-name">Draws vs. cash made</p><p class="bv-check-def">Draws as a share of the cash the business made after equipment and loan principal, excluding new borrowing. Over 100% drains the bank.</p></div>
+          <div class="bv-check" data-metric="draws_vs_cash"><div><p class="bv-check-name">Draws vs. cash made</p><p class="bv-check-def">Draws as a share of the cash the business made after equipment and loan principal, excluding new borrowing. Over 100% drains the bank.</p><div class="bv-bullet" data-draw="health_bullet" data-source="health" data-where="metric=draws_vs_cash" aria-hidden="true"></div></div>
             <div class="bv-check-num"><b class="bv-check-val" data-draw="v" data-source="health" data-field="value" data-where="metric=draws_vs_cash" data-fmt="pct0">...</b><span class="bv-check-target">target ≤ <span data-draw="v" data-source="health" data-field="target" data-where="metric=draws_vs_cash" data-fmt="pct0">...</span></span><span class="bv-pill" data-draw="status" data-source="health" data-field="status" data-where="metric=draws_vs_cash">...</span></div></div>
-          <div class="bv-check" data-metric="dso"><div><p class="bv-check-name">Days to get paid</p><p class="bv-check-def">What customers owe you divided by average daily revenue over the last 3 months (DSO). Residential work paid on completion should run low.</p></div>
+          <div class="bv-check" data-metric="dso"><div><p class="bv-check-name">Days to get paid</p><p class="bv-check-def">What customers owe you divided by average daily revenue over the last 3 months (DSO). Residential work paid on completion should run low.</p><div class="bv-bullet" data-draw="health_bullet" data-source="health" data-where="metric=dso" aria-hidden="true"></div></div>
             <div class="bv-check-num"><b class="bv-check-val"><span data-draw="v" data-source="health" data-field="value" data-where="metric=dso" data-fmt="int">...</span> days</b><span class="bv-check-target">target ≤ <span data-draw="v" data-source="health" data-field="target" data-where="metric=dso" data-fmt="int">...</span> days</span><span class="bv-pill" data-draw="status" data-source="health" data-field="status" data-where="metric=dso">...</span></div></div>
-          <div class="bv-check" data-metric="ar60"><div><p class="bv-check-name">Receivables over 60 days</p><p class="bv-check-def">Share of what customers owe you that is more than 60 days old. The older it gets, the less of it you collect.</p></div>
+          <div class="bv-check" data-metric="ar60"><div><p class="bv-check-name">Receivables over 60 days</p><p class="bv-check-def">Share of what customers owe you that is more than 60 days old. The older it gets, the less of it you collect.</p><div class="bv-bullet" data-draw="health_bullet" data-source="health" data-where="metric=ar60" aria-hidden="true"></div></div>
             <div class="bv-check-num"><b class="bv-check-val" data-draw="v" data-source="health" data-field="value" data-where="metric=ar60" data-fmt="pct0">...</b><span class="bv-check-target">target ≤ <span data-draw="v" data-source="health" data-field="target" data-where="metric=ar60" data-fmt="pct0">...</span></span><span class="bv-pill" data-draw="status" data-source="health" data-field="status" data-where="metric=ar60">...</span></div></div>
-          <div class="bv-check" data-metric="quick_ratio"><div><p class="bv-check-name">Adjusted quick ratio</p><p class="bv-check-def">Cash and customer balances under 60 days old, per $1 of bills, payroll, taxes, deposits and loan payments due within a year. Prepaid memberships are left out: you repay them with service, not cash.</p></div>
+          <div class="bv-check" data-metric="quick_ratio"><div><p class="bv-check-name">Adjusted quick ratio</p><p class="bv-check-def">Cash and customer balances under 60 days old, per $1 of bills, payroll, taxes, deposits and loan payments due within a year. Prepaid memberships are left out: you repay them with service, not cash.</p><div class="bv-bullet" data-draw="health_bullet" data-source="health" data-where="metric=quick_ratio" aria-hidden="true"></div></div>
             <div class="bv-check-num"><b class="bv-check-val" data-draw="v" data-source="health" data-field="value" data-where="metric=quick_ratio" data-fmt="x">...</b><span class="bv-check-target">target ≥ <span data-draw="v" data-source="health" data-field="target" data-where="metric=quick_ratio" data-fmt="x">...</span></span><span class="bv-pill" data-draw="status" data-source="health" data-field="status" data-where="metric=quick_ratio">...</span></div></div>
           <p class="bv-group">Profit</p>
-          <div class="bv-check" data-metric="net_margin"><div><p class="bv-check-name">Profit margin</p><p class="bv-check-def">Share of revenue you keep after every cost, before owner income tax.</p></div>
+          <div class="bv-check" data-metric="net_margin"><div><p class="bv-check-name">Profit margin</p><p class="bv-check-def">Share of revenue you keep after every cost, before owner income tax.</p><div class="bv-bullet" data-draw="health_bullet" data-source="health" data-where="metric=net_margin" aria-hidden="true"></div></div>
             <div class="bv-check-num"><b class="bv-check-val" data-draw="v" data-source="health" data-field="value" data-where="metric=net_margin" data-fmt="pct">...</b><span class="bv-check-target">target ≥ <span data-draw="v" data-source="health" data-field="target" data-where="metric=net_margin" data-fmt="pct0">...</span></span><span class="bv-pill" data-draw="status" data-source="health" data-field="status" data-where="metric=net_margin">...</span></div></div>
-          <div class="bv-check" data-metric="gross_margin"><div><p class="bv-check-name">Gross margin</p><p class="bv-check-def">Revenue left after materials and field crew labor, the cost of doing the jobs.</p></div>
+          <div class="bv-check" data-metric="gross_margin"><div><p class="bv-check-name">Gross margin</p><p class="bv-check-def">Revenue left after materials and field crew labor, the cost of doing the jobs.</p><div class="bv-bullet" data-draw="health_bullet" data-source="health" data-where="metric=gross_margin" aria-hidden="true"></div></div>
             <div class="bv-check-num"><b class="bv-check-val" data-draw="v" data-source="health" data-field="value" data-where="metric=gross_margin" data-fmt="pct">...</b><span class="bv-check-target">target ≥ <span data-draw="v" data-source="health" data-field="target" data-where="metric=gross_margin" data-fmt="pct0">...</span></span><span class="bv-pill" data-draw="status" data-source="health" data-field="status" data-where="metric=gross_margin">...</span></div></div>
-          <div class="bv-check" data-metric="safety"><div><p class="bv-check-name">Margin of safety</p><p class="bv-check-def">Estimated headroom with materials treated as the only variable cost. Break-even is <b data-draw="v" data-source="ttm" data-field="breakeven_monthly" data-row="0" data-fmt="moneyk">...</b> a month.</p></div>
+          <div class="bv-check" data-metric="safety"><div><p class="bv-check-name">Margin of safety</p><p class="bv-check-def">Estimated headroom with materials treated as the only variable cost. Break-even is <b data-draw="v" data-source="ttm" data-field="breakeven_monthly" data-row="0" data-fmt="moneyk">...</b> a month.</p><div class="bv-bullet" data-draw="health_bullet" data-source="health" data-where="metric=safety" aria-hidden="true"></div></div>
             <div class="bv-check-num"><b class="bv-check-val" data-draw="v" data-source="health" data-field="value" data-where="metric=safety" data-fmt="pct">...</b><span class="bv-check-target">target ≥ <span data-draw="v" data-source="health" data-field="target" data-where="metric=safety" data-fmt="pct0">...</span></span><span class="bv-pill" data-draw="status" data-source="health" data-field="status" data-where="metric=safety">...</span></div></div>
-          <div class="bv-check" data-metric="labor_pct"><div><p class="bv-check-name">Team cost share</p><p class="bv-check-def">All-in cost of everyone on payroll, trucks included, as a share of revenue.</p></div>
+          <div class="bv-check" data-metric="labor_pct"><div><p class="bv-check-name">Team cost share</p><p class="bv-check-def">All-in cost of everyone on payroll, trucks included, as a share of revenue.</p><div class="bv-bullet" data-draw="health_bullet" data-source="health" data-where="metric=labor_pct" aria-hidden="true"></div></div>
             <div class="bv-check-num"><b class="bv-check-val" data-draw="v" data-source="health" data-field="value" data-where="metric=labor_pct" data-fmt="pct">...</b><span class="bv-check-target">target ≤ <span data-draw="v" data-source="health" data-field="target" data-where="metric=labor_pct" data-fmt="pct0">...</span></span><span class="bv-pill" data-draw="status" data-source="health" data-field="status" data-where="metric=labor_pct">...</span></div></div>
-          <div class="bv-check" data-metric="growth"><div><p class="bv-check-name">Revenue growth</p><p class="bv-check-def">Last 12 months against the 12 before.</p></div>
+          <div class="bv-check" data-metric="growth"><div><p class="bv-check-name">Revenue growth</p><p class="bv-check-def">Last 12 months against the 12 before.</p><div class="bv-bullet" data-draw="health_bullet" data-source="health" data-where="metric=growth" aria-hidden="true"></div></div>
             <div class="bv-check-num"><b class="bv-check-val" data-draw="v" data-source="health" data-field="value" data-where="metric=growth" data-fmt="pct">...</b><span class="bv-check-target">target ≥ <span data-draw="v" data-source="health" data-field="target" data-where="metric=growth" data-fmt="pct0">...</span></span><span class="bv-pill" data-draw="status" data-source="health" data-field="status" data-where="metric=growth">...</span></div></div>
           <p class="bv-group">Debt and taxes</p>
-          <div class="bv-check" data-metric="dscr"><div><p class="bv-check-name">Debt coverage, planning view</p><p class="bv-check-def">Operating cash flow plus interest, less all equipment purchases, per $1 of principal and interest. Confirm your lender's covenant separately.</p></div>
+          <div class="bv-check" data-metric="dscr"><div><p class="bv-check-name">Debt coverage, planning view</p><p class="bv-check-def">Operating cash flow plus interest, less all equipment purchases, per $1 of principal and interest. Confirm your lender's covenant separately.</p><div class="bv-bullet" data-draw="health_bullet" data-source="health" data-where="metric=dscr" aria-hidden="true"></div></div>
             <div class="bv-check-num"><b class="bv-check-val" data-draw="v" data-source="health" data-field="value" data-where="metric=dscr" data-fmt="x">...</b><span class="bv-check-target">target ≥ <span data-draw="v" data-source="health" data-field="target" data-where="metric=dscr" data-fmt="x">...</span></span><span class="bv-pill" data-draw="status" data-source="health" data-field="status" data-where="metric=dscr">...</span></div></div>
-          <div class="bv-check" data-metric="debt_to_equity"><div><p class="bv-check-name">Debt to equity</p><p class="bv-check-def">Loans per $1 of what you own in the business (equity, <b data-draw="v" data-source="ttm" data-field="equity" data-row="0" data-fmt="moneyk">...</b>).</p></div>
+          <div class="bv-check" data-metric="debt_to_equity"><div><p class="bv-check-name">Debt to equity</p><p class="bv-check-def">Loans per $1 of what you own in the business (equity, <b data-draw="v" data-source="ttm" data-field="equity" data-row="0" data-fmt="moneyk">...</b>).</p><div class="bv-bullet" data-draw="health_bullet" data-source="health" data-where="metric=debt_to_equity" aria-hidden="true"></div></div>
             <div class="bv-check-num"><b class="bv-check-val" data-draw="v" data-source="health" data-field="value" data-where="metric=debt_to_equity" data-fmt="x">...</b><span class="bv-check-target">target ≤ <span data-draw="v" data-source="health" data-field="target" data-where="metric=debt_to_equity" data-fmt="x">...</span></span><span class="bv-pill" data-draw="status" data-source="health" data-field="status" data-where="metric=debt_to_equity">...</span></div></div>
-          <div class="bv-check" data-metric="tx_franchise"><div><p class="bv-check-name">Texas franchise tax line</p><p class="bv-check-def">TTM revenue compared with the 2026/2027 report threshold for planning. Actual tax depends on the filing period and method.</p></div>
+          <div class="bv-check" data-metric="tx_franchise"><div><p class="bv-check-name">Texas franchise tax line</p><p class="bv-check-def">TTM revenue compared with the 2026/2027 report threshold for planning. Actual tax depends on the filing period and method.</p><div class="bv-bullet" data-draw="health_bullet" data-source="health" data-where="metric=tx_franchise" aria-hidden="true"></div></div>
             <div class="bv-check-num"><b class="bv-check-val" data-draw="v" data-source="health" data-field="value" data-where="metric=tx_franchise" data-fmt="moneyk">...</b><span class="bv-check-target">line <span data-draw="v" data-source="health" data-field="target" data-where="metric=tx_franchise" data-fmt="moneyk">...</span></span><span class="bv-pill" data-draw="status" data-source="health" data-field="status" data-where="metric=tx_franchise">...</span></div></div>
         </div>
         <button type="button" class="bv-more" data-toggle="checks" aria-expanded="false"><span data-when="closed">Show all checks</span><span data-when="open" hidden>Show only checks that need a look</span></button>
@@ -518,7 +563,7 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
 
   <!-- MARKETING -->
   <section class="bv-page" id="marketing" role="tabpanel" aria-labelledby="tab-marketing" hidden>
-    <div class="bv-kpis">
+    <div class="bv-kpis bv-metric-strip">
       <div class="bv-kpi bv-kpi--hero" id="kpi-mkt-per-dollar">
         <p class="bv-kpi-label">Marketing spent per $1 of revenue, last 12 months</p>
         <p class="bv-kpi-value" data-draw="v" data-source="mkt" data-field="mkt_per_dollar" data-row="0" data-fmt="cents">...</p>
@@ -553,8 +598,11 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
 
     <div class="bv-grid">
       <div class="bv-card bv-card--wide" id="card-channels">
-        <h2 class="bv-h2">Return by channel</h2>
-        <p class="bv-sub">Last 12 months. Return is first-year revenue from new customers per $1 spent. Sorted best first.</p>
+        <h2 class="bv-h2">Which channels earn their budget?</h2>
+        <div class="bv-chart-switch" role="group" aria-label="Channel comparison"><button type="button" data-channel-metric="return_per_dollar" aria-pressed="true">Revenue / $1 spent</button><button type="button" data-channel-metric="cac" aria-pressed="false">Cost / customer</button></div>
+        <div data-draw="channel_bars" data-source="channel_stats">...</div>
+        <p class="bv-sub">Last 12 months. Revenue return or cost per new customer, sorted best first.</p>
+        <details class="bv-fold"><summary>Exact channel figures</summary>
         <section class="bv-table-wrap" aria-label="Marketing channels" tabindex="0">
           <table class="bv-table" data-source="channel_stats" data-row-key="channel">
             <thead><tr>
@@ -569,6 +617,7 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
             <tbody data-draw="chan_rows" data-source="channel_stats"></tbody>
           </table>
         </section>
+        </details>
       </div>
       <div class="bv-card bv-card--wide" id="card-mkt-trend">
         <h2 class="bv-h2">Marketing cents per revenue dollar, by month</h2>
@@ -580,7 +629,7 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
 
   <!-- TEAM -->
   <section class="bv-page" id="team" role="tabpanel" aria-labelledby="tab-team" hidden>
-    <div class="bv-kpis">
+    <div class="bv-kpis bv-metric-strip">
       <div class="bv-kpi bv-kpi--hero" id="kpi-team-total">
         <p class="bv-kpi-label">Total cost of your team, per year, all in</p>
         <p class="bv-kpi-value" data-draw="v" data-source="team_sum" data-field="total" data-row="0" data-fmt="money">...</p>
@@ -627,7 +676,7 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
       </div>
 
       <div class="bv-card" id="card-people">
-        <h2 class="bv-h2">Cost of each person</h2>
+        <h2 class="bv-h2">Where does each person’s budget go?</h2>
         <p class="bv-sub">Per year, all in. "Per worked hour" spreads the total over hours actually on the job, after paid time off, holidays and training.</p>
         <ul class="bv-legend"><li><span class="bv-sw" data-swatch="0"></span>Wages</li><li><span class="bv-sw" data-swatch="1"></span>Payroll taxes</li><li><span class="bv-sw" data-swatch="2"></span>Benefits and insurance</li><li><span class="bv-sw" data-swatch="3"></span>Trucks, tools, tech, training</li></ul>
         <div class="bv-people" data-draw="people" data-source="team_cost">...</div>
@@ -657,7 +706,7 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
       </div>
     </div>
 
-    <div class="bv-kpis">
+    <div class="bv-kpis bv-metric-strip">
       <div class="bv-kpi bv-kpi--hero" id="kpi-hire-cost">
         <p class="bv-kpi-label">First-year hire budget</p>
         <p class="bv-kpi-value" data-draw="hv" data-source="hire_model" data-field="cost_y1" data-fmt="money">...</p>
@@ -686,6 +735,13 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
     </div>
 
     <div class="bv-grid">
+      <div class="bv-card bv-card--wide" id="card-hire-curve">
+        <h2 class="bv-h2">Running contribution from this hire</h2>
+        <p class="bv-sub">24-month scenario, before collection and payment delays. Revenue ramps up; illustrative tax costs land in months 12 and 24.</p>
+        <div class="bv-chart" data-draw="hire_chart" data-source="hire_curve">...</div>
+        <div class="bv-hire-annotation" data-draw="hire_annotation" data-source="hire_model">...</div>
+      </div>
+
       <div class="bv-card" id="card-hire-lines">
         <h2 class="bv-h2">First-year budget breakdown</h2>
         <p class="bv-sub">Hire costs and sales support, excluding job materials. Truck payments count in full.</p>
@@ -723,12 +779,6 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
         </div>
         </details>
         <p class="bv-note">In year one their work brings in <b data-draw="hv" data-source="hire_model" data-field="revenue_y1" data-fmt="money">...</b>, which leaves <b data-draw="hv" data-source="hire_model" data-field="gross_profit_y1" data-fmt="money">...</b> after materials to pay for all of the above.</p>
-      </div>
-
-      <div class="bv-card" id="card-hire-curve">
-        <h2 class="bv-h2">Running contribution from this hire</h2>
-        <p class="bv-sub">24-month scenario, before collection and payment delays. Revenue ramps up; illustrative tax costs land in months 12 and 24.</p>
-        <div class="bv-chart" data-draw="hire_chart" data-source="hire_curve">...</div>
       </div>
 
       <div class="bv-card" id="card-hire-compare">
@@ -1215,12 +1265,12 @@ dash.calc('focus', {
   show(ids.includes(start) ? start : 'overview');
   addEventListener('hashchange', () => { const id=location.hash.slice(1); if(ids.includes(id))show(id); });
 
-  document.querySelectorAll('.bv-seg button').forEach((b) => b.addEventListener('click', () => dash.setParams({hire_level: b.dataset.level})));
+  document.querySelectorAll('.bv-seg button[data-level]').forEach((b) => b.addEventListener('click', () => dash.setParams({hire_level: b.dataset.level})));
 
   dash.onData(() => {
     document.querySelectorAll('[data-swatch]').forEach((s) => { s.style.background = dash.colors[Number(s.dataset.swatch)]; });
     const level = dash.params().hire_level || 'market';
-    document.querySelectorAll('.bv-seg button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.level === level)));
+    document.querySelectorAll('.bv-seg button[data-level]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.level === level)));
   });
 })();
 </script>
@@ -1452,29 +1502,6 @@ dash.draw('mkt_chart', (el) => {
 
 <script>
 /* ---------- Team ---------- */
-dash.draw('people', (el) => {
-  const d = dash.data('team_cost');
-  if (d.status !== 'ok') { BV.notReady(el, d); return; }
-  el.classList.remove('dash-skeleton');
-  const rows = [...d.data].sort((a, b) => b.total - a.total);
-  const max = d3.max(rows, (r) => r.total);
-  el.replaceChildren(...rows.map((r) => {
-    const p = document.createElement('div'); p.className = 'bv-person';
-    const top = document.createElement('div'); top.className = 'bv-person-top';
-    top.append(Object.assign(document.createElement('span'), {textContent: r.role}), Object.assign(document.createElement('b'), {textContent: BV.fmt.money(r.total)}));
-    const bar = document.createElement('div'); bar.className = 'bv-person-bar';
-    [r.wages, r.payroll_taxes, r.benefits, r.other].forEach((v, i) => {
-      const s = document.createElement('div');
-      s.style.width = (v / max) * 100 + '%';
-      s.style.background = dash.colors[i];
-      bar.appendChild(s);
-    });
-    const sub = document.createElement('p'); sub.className = 'bv-person-sub';
-    sub.textContent = `${BV.fmt.moneyk(r.wages)} pay · ${BV.fmt.money2(r.multiplier)} per $1 of pay · ${BV.fmt.money(r.per_hour)} per worked hour`;
-    p.append(top, bar, sub);
-    return p;
-  }));
-});
 </script>
 
 <script>
@@ -1509,7 +1536,8 @@ dash.draw('hire_chart', (el) => {
   });
   [1, 6, 12, 18, 24].forEach((m) => g.append('text').attr('x', x(m)).attr('y', H - 6).attr('text-anchor', m === 24 ? 'end' : m === 1 ? 'start' : 'middle').attr('fill', 'var(--color-fg-muted)').text('Mo ' + m));
   const color = dash.colors[0];
-  svg.append('path').attr('d', d3.area().x((r) => x(r.month)).y0(y(0)).y1((r) => y(r.cum))(rows)).attr('fill', color).attr('fill-opacity', 0.12);
+  svg.append('path').attr('d', d3.area().x((r) => x(r.month)).y0(y(0)).y1((r) => y(Math.min(0,r.cum)))(rows)).attr('fill', 'var(--color-bad)').attr('fill-opacity', 0.14);
+  svg.append('path').attr('d', d3.area().x((r) => x(r.month)).y0(y(0)).y1((r) => y(Math.max(0,r.cum)))(rows)).attr('fill', 'var(--color-ok)').attr('fill-opacity', 0.1);
   svg.append('path').attr('d', d3.line().x((r) => x(r.month)).y((r) => y(r.cum))(rows)).attr('fill', 'none').attr('stroke', color).attr('stroke-width', 2).attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round');
   const low = rows.reduce((a, r) => (r.cum < a.cum ? r : a), rows[0]);
   const paid = rows.find((r, i) => r.cum >= 0 && rows.slice(i).every((x) => x.cum >= 0));
@@ -1561,6 +1589,7 @@ dash.draw('rate_rows', (el) => {
   <p>Built by Binary Virtual Solutions.</p>
 </footer>
 
+<script src="visuals.js"></script>
 <script>dash.__start();</script>
 </body>
 </html>

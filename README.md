@@ -21,6 +21,12 @@ npm run check
 
 Checks cover HTML validation, CSS syntax, sample reconciliation, financial edge cases, status contrast, tabs, keyboard navigation, Show controls and all 15 role/pay combinations. DOM tests simulate layout-dependent SVG text measurements. They do not establish mobile browser layout or device performance.
 
+## Visual comparisons
+
+The Overview compares reserved and remaining cash. Finance explains the profit-to-cash movements and shows policy targets. Marketing switches between revenue return and acquisition cost. Team rows expand to show cost components. Hiring separates positive contribution from modeled deficits. Exact figures remain available through disclosures.
+
+`visuals.js` contains these interactive renderers. It must ship beside `index.html` and the vendored D3 file.
+
 ## Scope
 
 Cash coverage requires dated receipts and payments. Hiring uses a contribution scenario before collection delays, with sample capacity, quotes and illustrative E-Z tax timing. Targets are sample policies. Confirm rates and assumptions before using real business data.
