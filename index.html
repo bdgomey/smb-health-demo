@@ -1314,6 +1314,12 @@ dash.calc('search_health', {
   document.querySelectorAll('.bv-seg button[data-level]').forEach((b) => b.addEventListener('click', () => dash.setParams({hire_level: b.dataset.level})));
 
   dash.onData(() => {
+    const selected = document.querySelector('.bv-tab[aria-selected="true"]');
+    if (selected) {
+      const strip = selected.parentElement, tabBounds = selected.getBoundingClientRect(), stripBounds = strip.getBoundingClientRect();
+      if (tabBounds.left < stripBounds.left) strip.scrollLeft -= stripBounds.left - tabBounds.left;
+      else if (tabBounds.right > stripBounds.right) strip.scrollLeft += tabBounds.right - stripBounds.right;
+    }
     document.querySelectorAll('[data-swatch]').forEach((s) => { s.style.background = dash.colors[Number(s.dataset.swatch)]; });
     const level = dash.params().hire_level || 'market';
     document.querySelectorAll('.bv-seg button[data-level]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.level === level)));
