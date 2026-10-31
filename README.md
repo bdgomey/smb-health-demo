@@ -27,7 +27,7 @@ The Overview compares reserved and remaining cash. Finance explains the profit-t
 
 `visuals.js` contains these interactive renderers. It must ship beside `index.html` and the vendored D3 file.
 
-The Search tab uses fictional `.example` pages to demonstrate indexing rules, crawl restrictions, preferred URLs and discovery issues. It does not connect to Search Console or establish real Google visibility.
+The Search tab uses fictional `.example` pages to demonstrate visibility barriers and potential business impact. Remediation plans and repair instructions stay in private business reviews. It does not connect to Search Console or establish real Google visibility.
 
 ## Scope
 

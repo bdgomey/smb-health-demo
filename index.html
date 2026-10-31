@@ -826,21 +826,17 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
 
   <!-- SEARCH VISIBILITY -->
   <section class="bv-page" id="search" role="tabpanel" aria-labelledby="tab-search" hidden>
-    <div class="bv-hero"><div><p class="bv-eyebrow">Search visibility · Sample website findings</p><h2>Can Google access your service pages?</h2></div><div><p class="bv-kpi-label">Indexing blockers in this sample</p><p class="bv-ov-value"><span data-draw="v" data-source="search_health" data-field="blocked" data-row="0" data-fmt="int">...</span> of <span data-draw="v" data-source="search_health" data-field="total" data-row="0" data-fmt="int">...</span> pages</p></div></div>
+    <div class="bv-hero"><div><p class="bv-eyebrow">Search visibility · Sample website findings</p><h2>Your services may be missing from Google.</h2></div><div><p class="bv-kpi-label">Indexing blockers in this sample</p><p class="bv-ov-value"><span data-draw="v" data-source="search_health" data-field="blocked" data-row="0" data-fmt="int">...</span> of <span data-draw="v" data-source="search_health" data-field="total" data-row="0" data-fmt="int">...</span> pages</p></div></div>
     <p class="bv-chart-note">Fictional website: riverbend.example. No live scan or Google Search Console data is connected.</p>
     <div class="bv-kpis bv-metric-strip">
       <div class="bv-kpi"><p class="bv-kpi-label">Indexing blockers</p><p class="bv-kpi-value"><span data-draw="v" data-source="search_health" data-field="blocked" data-row="0" data-fmt="int">...</span></p></div>
       <div class="bv-kpi"><p class="bv-kpi-label">Need technical review</p><p class="bv-kpi-value"><span data-draw="v" data-source="search_health" data-field="review" data-row="0" data-fmt="int">...</span></p></div>
       <div class="bv-kpi"><p class="bv-kpi-label">Indexed by Google</p><p class="bv-kpi-value bv-search-unknown">Not connected</p></div>
     </div>
-    <div class="bv-next"><p class="bv-eyebrow">Fix first</p><p class="bv-next-title">Restore the service pages customers need.</p><p class="bv-sub">The AC repair page has a noindex rule. The water heater page returns 404.</p></div>
+    <div class="bv-next"><p class="bv-eyebrow">Visibility concern</p><p class="bv-next-title">Key service pages have search barriers.</p><p class="bv-sub">The AC repair page has an indexing blocker. The water heater page is unavailable at its listed address.</p></div>
     <div class="bv-card"><h2 class="bv-h2">Which pages need attention?</h2><div data-draw="search_rows" data-source="search_pages_calc">...</div></div>
-    <div class="bv-card"><h2 class="bv-h2">Search improvement plan</h2>
-      <details class="bv-fold"><summary>1. Resolve indexing blockers</summary><p class="bv-note">Review the noindex rule on the AC repair page. Restore the water heater page or redirect it to a relevant replacement. Recheck the response and indexing rules.</p></details>
-      <details class="bv-fold"><summary>2. Improve discovery and page details</summary><p class="bv-note">Review the plumbing crawl restriction and heating page's preferred URL. Add the service-area page to the sitemap and give it a useful page title. These changes do not guarantee indexing or rankings.</p></details>
-      <details class="bv-fold"><summary>3. Measure actual search visibility</summary><p class="bv-note">Use the owner's Search Console property to inspect Google indexing, impressions, clicks and search terms. Review Google Business Profile separately for local search. Neither account is connected in this demo.</p></details>
-    </div>
-    <details class="bv-fold bv-card"><summary>What this check can confirm</summary><p class="bv-note">Technical checks identify crawl restrictions, indexing rules, response errors and discovery opportunities. Confirmed Google indexing requires Search Console evidence. Ranking positions, lost leads and revenue impact are unknown.</p><p class="bv-note"><a href="https://developers.google.com/search/docs/crawling-indexing/block-indexing">Google indexing rules</a> · <a href="https://developers.google.com/search/docs/crawling-indexing/robots/intro">Crawl restrictions</a> · <a href="https://support.google.com/webmasters/answer/9012289?hl=en">URL Inspection</a></p></details>
+    <div class="bv-next"><p class="bv-eyebrow">Business impact</p><p class="bv-next-title">Customers may miss the services you want to sell.</p><p class="bv-sub">Discuss these visibility concerns in your business review. The effect on inquiries has not been measured.</p></div>
+    <details class="bv-fold bv-card"><summary>About this check</summary><p class="bv-note">Sample website findings for a fictional company. Technical barriers and confirmed Google indexing are separate. Search Console is not connected. Actual rankings, traffic, leads and revenue impact are unknown.</p></details>
   </section>
 </div>
 
@@ -1205,8 +1201,8 @@ dash.calc('search_pages_calc', {
     const blocked=p.http_status>=400 || p.noindex;
     const review=!p.robots_allowed || p.canonical!=='self' || !p.title_present || !p.in_sitemap;
     const status=blocked?'Risk':review?'Watch':'Good';
-    const label=p.http_status>=400?'HTTP '+p.http_status:p.noindex?'Noindex rule':!p.robots_allowed?'Crawl restricted':p.canonical!=='self'?'Preferred URL differs':!p.title_present?'Page title missing':!p.in_sitemap?'Sitemap review':'No listed indexing blocker';
-    const detail=p.http_status>=400?'Restore this page or redirect to its relevant replacement.':p.noindex?'Google must crawl the page to see noindex. Review whether this service page should be public.':!p.robots_allowed?'robots.txt restricts crawling. This alone does not prove the URL is absent from Google.':p.canonical!=='self'?'The page points to '+p.canonical+' as its preferred URL. Google may choose another canonical.':!p.title_present || !p.in_sitemap?'Add a useful page title and include public pages in the sitemap for discovery. Neither change guarantees indexing.':'A successful response without these blockers does not guarantee Google indexing.';
+    const label=p.http_status>=400?'Page unavailable':p.noindex?'Indexing blocked':!p.robots_allowed?'Search access restricted':p.canonical!=='self'?'Page visibility uncertain':!p.title_present?'Search details incomplete':!p.in_sitemap?'Discovery incomplete':'No listed blocker';
+    const detail=p.http_status>=400?'This service page is unavailable at its listed address. Potential customers may reach an error instead of the service information.':p.noindex?'An indexing instruction excludes this page from search once processed. Customers may be unable to find this service page through Google.':!p.robots_allowed?'Search engines are restricted from reading this page. This does not prove the URL is absent from Google.':p.canonical!=='self'?'The website signals another preferred URL for this page. Google may choose another canonical; actual visibility is unconfirmed.':!p.title_present || !p.in_sitemap?'Search details and discovery signals are incomplete. Customers may have less context about the services and locations covered.':'No listed technical blocker was found in this sample. Actual Google indexing is unconfirmed.';
     return {...p,page_name:p.label,status,label,detail};
   }),
 });
