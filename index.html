@@ -181,6 +181,26 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
   .bv-checks > .bv-group + .bv-check { border-top: 0; }
   .bv-more { justify-self: start; min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--color-border-line); background: transparent; color: var(--color-fg); font: inherit; font-size: var(--cds-font-size-caption); font-weight: 600; cursor: pointer; }
   .bv-more:focus-visible { outline: 2px solid var(--color-fg); outline-offset: 2px; }
+  .bv-verdict { display: grid; gap: var(--cds-gap-sm); }
+  .bv-verdict-main { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: calc(var(--cds-font-size-title) * 1.05); line-height: 1.2; text-wrap: balance; }
+  .bv-verdict-sub { font-size: var(--cds-font-size-body); color: var(--color-fg-muted); line-height: 1.5; max-width: 60ch; }
+  .bv .bv-verdict-sub b, .bv .bv-ov-foot b { color: var(--color-fg); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .bv-ov-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--cds-gap-sm); }
+  @container (min-width: 760px) { .bv-ov-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .bv-ov-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-md); display: grid; gap: 6px; align-content: start; min-width: 0; }
+  .bv-ov-top { display: grid; gap: 6px; justify-items: start; }
+  .bv-ov-value { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: calc(var(--cds-font-size-title) * 1.15); line-height: 1.05; font-variant-numeric: tabular-nums; }
+  .bv-acts { display: flex; flex-direction: column; gap: var(--cds-gap-sm); }
+  .bv-act { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--cds-gap-sm); align-items: start; padding: var(--cds-pad-sm) 0; border-top: 1px solid var(--color-border-line); }
+  .bv-act-rank { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--color-fg); color: var(--color-bg); font-weight: 600; font-size: var(--cds-font-size-caption); }
+  .bv-act-title { font-weight: 600; font-size: var(--cds-font-size-body); }
+  .bv-act-text { font-size: var(--cds-font-size-body); color: var(--color-fg-muted); line-height: 1.45; margin-top: 2px; }
+  .bv .bv-act-text b { color: var(--color-fg); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .bv-act-none { color: var(--color-ok); font-weight: 600; }
+  .bv-ov-foot { font-size: var(--cds-font-size-body); color: var(--color-fg-muted); }
+  .bv-fold summary { cursor: pointer; font-weight: 600; font-size: var(--cds-font-size-body); padding-block: 8px; }
+  .bv-fold[open] summary { margin-bottom: 4px; }
+  .bv-line--lead { margin-top: 0; }
   [data-dash-source-state=empty] { color: transparent; }
   [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
 
@@ -257,21 +277,71 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
 <div class="bv">
   <header class="bv-head" id="top">
     <p class="bv-eyebrow">Riverbend Home Services · sample data · as of Oct 31, 2026</p>
-    <h1 class="bv-title">Financial health</h1>
-    <p class="bv-take">Your bank shows <b data-draw="v" data-source="ttm" data-field="cash" data-row="0" data-fmt="moneyk">—</b>. <b data-draw="v" data-source="ttm" data-field="spoken_for" data-row="0" data-fmt="moneyk">—</b> of it is already spoken for, so <b data-draw="v" data-source="ttm" data-field="free_cash" data-row="0" data-fmt="moneyk">—</b> is really yours. You made <b data-draw="v" data-source="ttm" data-field="net_income" data-row="0" data-fmt="moneyk">—</b> in profit last year, and the bank kept <b data-draw="v" data-source="ttm" data-field="cash_change" data-row="0" data-fmt="moneyk">—</b> of it. Checks that need a look: <b data-draw="v" data-source="health_sum" data-field="needs_look" data-row="0" data-fmt="int">—</b>.</p>
+    <h1 class="bv-title">How the business is doing</h1>
   </header>
 
   <div class="bv-tabbar">
     <div class="bv-tabs" role="tablist" aria-label="Dashboard sections">
-      <button class="bv-tab" type="button" role="tab" id="tab-health" aria-controls="health" aria-selected="true" data-tab="health">Health</button>
+      <button class="bv-tab" type="button" role="tab" id="tab-overview" aria-controls="overview" aria-selected="true" data-tab="overview">Overview</button>
+      <button class="bv-tab" type="button" role="tab" id="tab-finance" aria-controls="finance" aria-selected="false" data-tab="finance">Finance</button>
       <button class="bv-tab" type="button" role="tab" id="tab-marketing" aria-controls="marketing" aria-selected="false" data-tab="marketing">Marketing</button>
-      <button class="bv-tab" type="button" role="tab" id="tab-team" aria-controls="team" aria-selected="false" data-tab="team">Team cost</button>
-      <button class="bv-tab" type="button" role="tab" id="tab-hire" aria-controls="hire" aria-selected="false" data-tab="hire">Next hire</button>
+      <button class="bv-tab" type="button" role="tab" id="tab-team" aria-controls="team" aria-selected="false" data-tab="team">Team</button>
+      <button class="bv-tab" type="button" role="tab" id="tab-hire" aria-controls="hire" aria-selected="false" data-tab="hire">Hiring</button>
     </div>
   </div>
 
-  <!-- HEALTH -->
-  <section class="bv-page" id="health" role="tabpanel" aria-labelledby="tab-health">
+  <!-- OVERVIEW (CEO) -->
+  <section class="bv-page" id="overview" role="tabpanel" aria-labelledby="tab-overview">
+    <div class="bv-verdict">
+      <p class="bv-verdict-main"><span data-draw="v" data-source="overview" data-field="profit_word" data-row="0" data-fmt="text">—</span> and <span data-draw="v" data-source="overview" data-field="growth_word" data-row="0" data-fmt="text">—</span>. Cash is <span data-draw="v" data-source="overview" data-field="cash_word" data-row="0" data-fmt="text">—</span>.</p>
+      <p class="bv-verdict-sub">Your bank shows <b data-draw="v" data-source="ttm" data-field="cash" data-row="0" data-fmt="moneyk">—</b>, but only <b data-draw="v" data-source="ttm" data-field="free_cash" data-row="0" data-fmt="moneyk">—</b> of it is really yours once you set aside what you already owe.</p>
+    </div>
+
+    <div class="bv-ov-grid">
+      <div class="bv-ov-card" id="ov-cash">
+        <div class="bv-ov-top"><p class="bv-kpi-label">Cash that is really yours</p><span class="bv-pill" data-draw="opill" data-source="overview" data-field="cash_label" data-status="cash_status" data-row="0">—</span></div>
+        <p class="bv-ov-value"><span data-draw="v" data-source="ttm" data-field="free_cash" data-row="0" data-fmt="moneyk">—</span></p>
+        <p class="bv-kpi-sub">Of <span data-draw="v" data-source="ttm" data-field="cash" data-row="0" data-fmt="moneyk">—</span> in the bank</p>
+      </div>
+      <div class="bv-ov-card" id="ov-next14">
+        <div class="bv-ov-top"><p class="bv-kpi-label">Due in the next 14 days</p><span class="bv-pill" data-draw="opill" data-source="overview" data-field="next14_label" data-status="next14_status" data-row="0">—</span></div>
+        <p class="bv-ov-value"><span data-draw="v" data-source="ttm" data-field="next14" data-row="0" data-fmt="moneyk">—</span></p>
+        <p class="bv-kpi-sub">Payroll, bills and loan payments</p>
+      </div>
+      <div class="bv-ov-card" id="ov-cushion">
+        <div class="bv-ov-top"><p class="bv-kpi-label">Cash cushion</p><span class="bv-pill" data-draw="opill" data-source="overview" data-field="cushion_label" data-status="cushion_status" data-row="0">—</span></div>
+        <p class="bv-ov-value"><span data-draw="v" data-source="ttm" data-field="runway" data-row="0" data-fmt="num1">—</span> mo</p>
+        <p class="bv-kpi-sub">Months of fixed costs covered. Target <span data-draw="v" data-source="health" data-field="target" data-where="metric=runway" data-fmt="num1">—</span></p>
+      </div>
+      <div class="bv-ov-card" id="ov-profit">
+        <div class="bv-ov-top"><p class="bv-kpi-label">Profit, last 12 months</p><span class="bv-pill" data-draw="opill" data-source="overview" data-field="profit_label" data-status="profit_status" data-row="0">—</span></div>
+        <p class="bv-ov-value"><span data-draw="v" data-source="ttm" data-field="net_income" data-row="0" data-fmt="moneyk">—</span></p>
+        <p class="bv-kpi-sub"><span data-draw="v" data-source="ttm" data-field="net_margin" data-row="0" data-fmt="pct">—</span> of revenue; the bank kept <span data-draw="v" data-source="ttm" data-field="cash_change" data-row="0" data-fmt="moneyk">—</span></p>
+      </div>
+    </div>
+
+    <div class="bv-card" id="card-actions">
+      <h2 class="bv-h2">Top things to fix</h2>
+      <p class="bv-sub">Ranked by dollars at stake.</p>
+      <div class="bv-acts">
+        <div class="bv-act" data-action="cushion" hidden><span class="bv-act-rank" data-draw="v" data-source="actions" data-field="rank" data-where="key=cushion" data-fmt="int">—</span><div class="bv-act-body"><p class="bv-act-title">Build a bigger cash cushion</p><p class="bv-act-text">You have <b data-draw="v" data-source="actions" data-field="value" data-where="key=cushion" data-fmt="num1">—</b> months of fixed costs covered. Reaching <b data-draw="v" data-source="actions" data-field="target" data-where="key=cushion" data-fmt="num1">—</b> months takes about <b data-draw="v" data-source="actions" data-field="impact" data-where="key=cushion" data-fmt="moneyk">—</b> more.</p></div></div>
+        <div class="bv-act" data-action="collect" hidden><span class="bv-act-rank" data-draw="v" data-source="actions" data-field="rank" data-where="key=collect" data-fmt="int">—</span><div class="bv-act-body"><p class="bv-act-title">Collect what customers owe</p><p class="bv-act-text"><b data-draw="v" data-source="actions" data-field="value" data-where="key=collect" data-fmt="moneyk">—</b> is over 30 days old, and <b data-draw="v" data-source="actions" data-field="value2" data-where="key=collect" data-fmt="moneyk">—</b> of that is over 60.</p></div></div>
+        <div class="bv-act" data-action="shortfall14" hidden><span class="bv-act-rank" data-draw="v" data-source="actions" data-field="rank" data-where="key=shortfall14" data-fmt="int">—</span><div class="bv-act-body"><p class="bv-act-title">Cover the next two weeks</p><p class="bv-act-text">Payroll, bills and loan payments due are <b data-draw="v" data-source="actions" data-field="impact" data-where="key=shortfall14" data-fmt="moneyk">—</b> more than your cash plus recent customer payments.</p></div></div>
+        <div class="bv-act" data-action="margin" hidden><span class="bv-act-rank" data-draw="v" data-source="actions" data-field="rank" data-where="key=margin" data-fmt="int">—</span><div class="bv-act-body"><p class="bv-act-title">Lift your profit margin</p><p class="bv-act-text">From <b data-draw="v" data-source="actions" data-field="value" data-where="key=margin" data-fmt="pct">—</b> to <b data-draw="v" data-source="actions" data-field="target" data-where="key=margin" data-fmt="pct0">—</b> is about <b data-draw="v" data-source="actions" data-field="impact" data-where="key=margin" data-fmt="moneyk">—</b> more profit a year.</p></div></div>
+        <div class="bv-act" data-action="draws" hidden><span class="bv-act-rank" data-draw="v" data-source="actions" data-field="rank" data-where="key=draws" data-fmt="int">—</span><div class="bv-act-body"><p class="bv-act-title">Leave more cash in the business</p><p class="bv-act-text">Draws were <b data-draw="v" data-source="actions" data-field="value" data-where="key=draws" data-fmt="pct0">—</b> of the cash the business made. Keeping to <b data-draw="v" data-source="actions" data-field="target" data-where="key=draws" data-fmt="pct0">—</b> leaves <b data-draw="v" data-source="actions" data-field="impact" data-where="key=draws" data-fmt="moneyk">—</b> in the bank.</p></div></div>
+        <div class="bv-act" data-action="team" hidden><span class="bv-act-rank" data-draw="v" data-source="actions" data-field="rank" data-where="key=team" data-fmt="int">—</span><div class="bv-act-body"><p class="bv-act-title">Watch team cost</p><p class="bv-act-text">Team cost is <b data-draw="v" data-source="actions" data-field="value" data-where="key=team" data-fmt="pct">—</b> of revenue, over the <b data-draw="v" data-source="actions" data-field="target" data-where="key=team" data-fmt="pct0">—</b> target by <b data-draw="v" data-source="actions" data-field="impact" data-where="key=team" data-fmt="moneyk">—</b> a year.</p></div></div>
+        <div class="bv-act" data-action="franchise" hidden><span class="bv-act-rank" data-draw="v" data-source="actions" data-field="rank" data-where="key=franchise" data-fmt="int">—</span><div class="bv-act-body"><p class="bv-act-title">Plan for the Texas franchise tax</p><p class="bv-act-text">You are <b data-draw="v" data-source="actions" data-field="value" data-where="key=franchise" data-fmt="moneyk">—</b> under the no-tax-due line. Growing past it costs about <b data-draw="v" data-source="actions" data-field="impact" data-where="key=franchise" data-fmt="moneyk">—</b> a year.</p></div></div>
+        <p class="bv-act-none" data-action-none hidden>Nothing urgent. Every check is on track.</p>
+      </div>
+    </div>
+
+    <p class="bv-ov-foot">Last 12 months: revenue <b data-draw="v" data-source="ttm" data-field="revenue" data-row="0" data-fmt="moneyk">—</b> (<b data-draw="delta" data-source="ttm" data-field="growth" data-row="0" data-fmt="spct">—</b>), paid to you <b data-draw="v" data-source="ttm" data-field="owner_take" data-row="0" data-fmt="moneyk">—</b>.</p>
+    <button type="button" class="bv-more" data-goto="finance">See the full numbers for your CFO</button>
+  </section>
+
+  <!-- FINANCE (CFO) -->
+  <section class="bv-page" id="finance" role="tabpanel" aria-labelledby="tab-finance" hidden>
+    <p class="bv-take">Your bank shows <b data-draw="v" data-source="ttm" data-field="cash" data-row="0" data-fmt="moneyk">—</b>. <b data-draw="v" data-source="ttm" data-field="spoken_for" data-row="0" data-fmt="moneyk">—</b> of it is already spoken for, so <b data-draw="v" data-source="ttm" data-field="free_cash" data-row="0" data-fmt="moneyk">—</b> is really yours. You made <b data-draw="v" data-source="ttm" data-field="net_income" data-row="0" data-fmt="moneyk">—</b> in profit last year, and the bank kept <b data-draw="v" data-source="ttm" data-field="cash_change" data-row="0" data-fmt="moneyk">—</b> of it. Checks that need a look: <b data-draw="v" data-source="health_sum" data-field="needs_look" data-row="0" data-fmt="int">—</b>.</p>
     <div class="bv-kpis bv-kpis--6">
       <div class="bv-kpi" id="kpi-free-cash">
         <p class="bv-kpi-label">Cash that is really yours</p>
@@ -562,6 +632,9 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
       <div class="bv-card" id="card-hire-lines">
         <h2 class="bv-h2">Every cost of this hire, first year</h2>
         <p class="bv-sub">Employer costs only, as cash out the door: a truck payment counts in full here, though your books spread a truck's cost over its life.</p>
+        <div class="bv-line bv-line--total bv-line--lead"><span>First-year total</span><b data-draw="hv" data-source="hire_model" data-field="cost_y1" data-fmt="money">—</b></div>
+        <details class="bv-fold">
+        <summary>See every cost, line by line</summary>
         <div class="bv-lines">
           <p class="bv-group">Pay</p>
           <div class="bv-line"><span>Wages</span><b data-draw="hv" data-source="hire_model" data-field="wages" data-fmt="money">—</b></div>
@@ -591,6 +664,7 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
           <div class="bv-line"><span>Texas franchise tax<small>Due once revenue passes <span data-draw="v" data-source="rates" data-field="value" data-where="key=tx_franchise_threshold" data-fmt="moneyk">—</span>, on all revenue at <span data-draw="v" data-source="rates" data-field="value" data-where="key=tx_ez_rate" data-fmt="pct3">—</span> (E-Z method)</small></span><b data-draw="hv" data-source="hire_model" data-field="tx_y1" data-fmt="money">—</b></div>
           <div class="bv-line bv-line--total"><span>First-year total</span><b data-draw="hv" data-source="hire_model" data-field="cost_y1" data-fmt="money">—</b></div>
         </div>
+        </details>
         <p class="bv-note">In year one their work brings in <b data-draw="hv" data-source="hire_model" data-field="revenue_y1" data-fmt="money">—</b>, which leaves <b data-draw="hv" data-source="hire_model" data-field="gross_profit_y1" data-fmt="money">—</b> after materials to pay for all of the above.</p>
       </div>
 
@@ -939,6 +1013,53 @@ dash.calc('hire_model', {
     });
   },
 });
+
+dash.calc('overview', {
+  inputs: ['ttm', 'health'],
+  title: 'Overview verdict and card status',
+  description: 'Plain-word verdict (profitable or losing money; growing, flat or shrinking; cash comfortable, tight or short) and a status for each overview card, from the same targets as the health checks.',
+  fn: (ttm, health) => {
+    const t = ttm[0];
+    const st = (m) => (health.find((h) => h.metric === m) || {}).status;
+    const word = {Good: 'On track', Watch: 'Watch', Risk: 'At risk'};
+    const cushion = st('runway'), profit = st('net_margin');
+    const cash = t.free_cash >= t.fixed_cash_monthly ? 'Good' : t.free_cash >= 0 ? 'Watch' : 'Risk';
+    const n14 = t.free_cash >= t.next14 ? 'Good' : t.free_cash + t.ar_under_30 >= t.next14 ? 'Watch' : 'Risk';
+    return [{
+      profit_word: t.net_income > 0 ? 'Profitable' : 'Losing money',
+      growth_word: t.growth >= 0.02 ? 'growing' : t.growth <= -0.02 ? 'shrinking' : 'flat',
+      cash_word: cushion === 'Good' ? 'comfortable' : cushion === 'Watch' ? 'tight' : 'short',
+      cash_status: cash, cash_label: cash === 'Good' ? 'A month or more' : cash === 'Watch' ? 'Under a month' : 'Below zero',
+      next14_status: n14, next14_label: n14 === 'Good' ? 'Covered' : n14 === 'Watch' ? 'If customers pay' : 'Short',
+      cushion_status: cushion, cushion_label: word[cushion],
+      profit_status: profit, profit_label: word[profit],
+    }];
+  },
+});
+
+dash.calc('actions', {
+  inputs: ['ttm', 'health'],
+  title: 'Top things to fix',
+  description: 'Each check that needs a look turned into an action with the dollars at stake: cash needed to reach the cushion target, receivables over 30 days, a 14-day shortfall, profit to reach the margin target, draws above the target share of cash made, team cost above target, and the franchise tax if revenue is within 10% of the line. Ranked by dollars; the top three show.',
+  fn: (ttm, health) => {
+    const t = ttm[0];
+    const h = (m) => health.find((x) => x.metric === m) || {};
+    const bad = (m) => h(m).status && h(m).status !== 'Good';
+    const short14 = t.next14 - (t.free_cash + t.ar_under_30);
+    const headroom = t.tx_threshold - t.revenue;
+    const rows = [
+      {key: 'cushion', active: bad('runway'), value: t.runway, target: h('runway').target, impact: Math.max(0, h('runway').target * (t.fixed_cash_monthly + t.principal_monthly) - (t.free_cash + t.ar_under_30))},
+      {key: 'collect', active: bad('dso') || bad('ar60'), value: t.ar_over_30, value2: t.ar_over_60, impact: t.ar_over_30},
+      {key: 'shortfall14', active: short14 > 0, impact: Math.max(0, short14)},
+      {key: 'margin', active: bad('net_margin'), value: t.net_margin, target: h('net_margin').target, impact: Math.max(0, (h('net_margin').target - t.net_margin) * t.revenue)},
+      {key: 'draws', active: bad('draws_vs_cash'), value: t.draws_vs_cash, target: h('draws_vs_cash').target, impact: Math.max(0, t.distributions - h('draws_vs_cash').target * t.fcfe)},
+      {key: 'team', active: bad('labor_pct'), value: t.labor_pct, target: h('labor_pct').target, impact: Math.max(0, (t.labor_pct - h('labor_pct').target) * t.revenue)},
+      {key: 'franchise', active: headroom >= 0 && headroom < 0.1 * t.tx_threshold, value: headroom, impact: t.tx_threshold * t.tx_ez},
+    ];
+    const ranked = rows.filter((r) => r.active).sort((a, b) => b.impact - a.impact);
+    return rows.map((r) => ({value2: null, target: null, value: null, ...r, rank: r.active ? ranked.indexOf(r) + 1 : 0}));
+  },
+});
 </script>
 
 <script>
@@ -1018,12 +1139,13 @@ dash.calc('hire_model', {
 <script>
 /* ---------- Tabs, swatches, pay buttons ---------- */
 (() => {
-  const ids = ['health', 'marketing', 'team', 'hire'];
+  const ids = ['overview', 'finance', 'marketing', 'team', 'hire'];
   const show = (id) => {
     document.querySelectorAll('.bv-page').forEach((s) => { s.hidden = s.id !== id; });
     document.querySelectorAll('.bv-tab').forEach((b) => { b.setAttribute('aria-selected', String(b.dataset.tab === id)); });
   };
   document.querySelectorAll('.bv-tab').forEach((b) => b.addEventListener('click', () => { show(b.dataset.tab); dash.setLink(b.dataset.tab); }));
+  document.querySelectorAll('[data-goto]').forEach((b) => b.addEventListener('click', () => { show(b.dataset.goto); dash.setLink(b.dataset.goto); scrollTo(0, 0); }));
   const start = location.hash.slice(1);
   if (ids.includes(start)) show(start);
 
@@ -1062,13 +1184,22 @@ dash.calc('hire_model', {
         g.hidden = !any;
       });
     }
-    document.querySelectorAll('.bv-more').forEach((btn) => {
+    const a = dash.data('actions');
+    if (a.status === 'ok') {
+      document.querySelectorAll('.bv-act[data-action]').forEach((el) => {
+        const r = a.data.find((x) => x.key === el.dataset.action);
+        el.hidden = !r || !r.active || r.rank > 3;
+        el.style.order = r ? String(r.rank) : '99';
+      });
+      document.querySelectorAll('[data-action-none]').forEach((el) => { el.hidden = a.data.some((x) => x.active); });
+    }
+    document.querySelectorAll('.bv-more[data-toggle]').forEach((btn) => {
       const o = !!open[btn.dataset.toggle];
       btn.setAttribute('aria-expanded', String(o));
       btn.querySelectorAll('[data-when]').forEach((x) => { x.hidden = (x.dataset.when === 'open') !== o; });
     });
   };
-  document.querySelectorAll('.bv-more').forEach((btn) => btn.addEventListener('click', () => { open[btn.dataset.toggle] = !open[btn.dataset.toggle]; apply(); }));
+  document.querySelectorAll('.bv-more[data-toggle]').forEach((btn) => btn.addEventListener('click', () => { open[btn.dataset.toggle] = !open[btn.dataset.toggle]; apply(); }));
   dash.onData(apply);
 })();
 </script>
@@ -1076,6 +1207,13 @@ dash.calc('hire_model', {
 <script>
 /* ---------- Single values ---------- */
 dash.draw('v', (el) => { BV.fill(el); });
+dash.draw('opill', (el) => {
+  const v = BV.fill(el);
+  const d = dash.data(el.dataset.source);
+  const row = d.status === 'ok' ? BV.rowOf(el, d.data) : null;
+  const st = row ? row[el.dataset.status] : null;
+  ['Good', 'Watch', 'Risk'].forEach((s) => el.classList.toggle('bv-pill--' + s, v != null && st === s));
+});
 dash.draw('delta', (el) => {
   const v = BV.fill(el);
   el.classList.toggle('bv-up', typeof v === 'number' && v > 0);
