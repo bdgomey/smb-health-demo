@@ -1,0 +1,74 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),{test}=require('node:test');
+const {JSDOM,VirtualConsole}=require('jsdom');
+const html=fs.readFileSync('index.html','utf8');
+const seed=JSON.parse(html.match(/const DATA = (\{.*\});/)[1]);
+const definitions={};const from=html.indexOf("dash.calc('team_cost'");const to=html.indexOf('/* ---------- Shared helpers');
+vm.runInNewContext(html.slice(from,to).replace(/<\/?script>/g,''),{dash:{calc:(id,definition)=>definitions[id]=definition}});
+function calculate(input=seed){const out=structuredClone(input);for(const [id,d]of Object.entries(definitions))out[id]=d.fn(...d.inputs.map(k=>out[k]));return out;}
+const expected=calculate();
+function near(a,b){assert.ok(Math.abs(a-b)<.00001,`${a} != ${b}`);}
+function mount(){
+ const errors=[],frames=[];const virtualConsole=new VirtualConsole();virtualConsole.on('jsdomError',e=>errors.push(e.message));
+ const dom=new JSDOM(html,{runScripts:'outside-only',url:'http://example.test/',virtualConsole});const w=dom.window;
+ w.console.error=(...values)=>errors.push(values.map(String).join(' '));w.requestAnimationFrame=fn=>frames.push(fn);w.matchMedia=()=>({matches:false,addEventListener(){}});w.scrollTo=()=>{};
+ w.SVGElement.prototype.getComputedTextLength=function(){return this.textContent.length*7;};
+ w.eval(fs.readFileSync('d3.v7.9.0.min.js','utf8'));
+ for(const script of w.document.querySelectorAll('script')){if(script.src.endsWith('d3.v7.9.0.min.js'))continue;w.eval(script.hasAttribute('src')?fs.readFileSync(script.getAttribute('src'),'utf8'):script.textContent);}
+ function flush(){let n=0;while(frames.length){assert.ok(n++<10,'Render cycle did not settle');frames.shift()();}}
+ flush();return{dom,w,doc:w.document,errors,flush};
+}
+test('sample accounting reconciles without borrowing inflating available draws',()=>{const t=expected.ttm[0];near(t.tax_reserve,46594.4);near(t.free_cash,23905.6);near(t.cfo,286298);near(t.fcf,226298);near(t.computed_change,t.cash_change);near(t.cash_change,90298);near(t.fcfe,190298);near(t.draws_vs_cash,145000/190298);});
+test('cash-only buffer excludes uncollected invoices',()=>{const t=expected.ttm[0];near(t.runway,23905.6/(107825.16666666667+3000));near(t.collection_runway,(23905.6+155000)/(107825.16666666667+3000));assert.equal(expected.overview[0].next14_label,'Dates needed');});
+test('CEO surfaces recent losses, break-even and negative reserves',()=>{const t={...expected.ttm[0],net_income:0,free_cash:-10000,runway:-.1};const v=definitions.overview.fn([t],expected.health)[0];assert.match(v.verdict,/Breaking even/);assert.match(v.verdict,/short/);assert.equal(expected.ttm[0].latest_profit,-1242);assert.equal(expected.focus[0].key,'collect');});
+test('invalid draw and equity ratios never produce Good',()=>{const t={...expected.ttm[0],draws_vs_cash:null,debt_to_equity:null};const rows=definitions.health.fn([t]);assert.equal(rows.find(x=>x.metric==='draws_vs_cash').status,'Risk');assert.equal(rows.find(x=>x.metric==='debt_to_equity').status,'Risk');});
+test('franchise warning keeps the real 2.65M planning line',()=>{const row=expected.health.find(x=>x.metric==='tx_franchise');assert.equal(row.target,2650000);assert.equal(row.status,'Watch');const t={...expected.ttm[0],revenue:2800000};assert.equal(definitions.actions.fn([t],expected.health).find(x=>x.key==='franchise').active,true);});
+test('hire budget includes costs once and sustained payback rejects the tax dip',()=>{const h=expected.hire_model.find(x=>x.role==='HVAC service technician'&&x.level==='market');near(h.cost_y1,149566.28044186046);near(h.budget_multiplier,h.cost_y1/62000);assert.equal(h.breakeven_month,null);const curve=expected.hire_curve.filter(x=>x.role===h.role&&x.level===h.level);assert.ok(curve[22].cum>0);assert.ok(curve[23].cum<0);near(h.runway_after,(expected.ttm[0].free_cash-h.one_time)/(expected.ttm[0].fixed_cash_monthly+expected.ttm[0].principal_monthly+h.monthly_all_in));});
+test('all dashboard figures and charts render without runtime errors',()=>{const m=mount();try{assert.deepEqual(m.errors,[]);assert.equal(m.doc.querySelectorAll('#card-checks .bv-check').length,14);assert.equal(m.doc.querySelectorAll('#card-channels tbody tr').length,8);assert.equal(m.doc.querySelectorAll('#card-people .bv-person').length,11);for(const el of m.doc.querySelectorAll('[data-draw]')){if(['v','hv','hdelta','status','opill','delta'].includes(el.dataset.draw)&&el.textContent==='...'){const optional=['breakeven_month','value'];assert.ok(optional.includes(el.dataset.field),`${el.dataset.source}.${el.dataset.field} is unresolved`);}}}finally{m.dom.window.close();}});
+test('tabs, keyboard navigation, CFO link and Show controls work',()=>{const m=mount();try{for(const id of ['finance','marketing','team','hire','overview']){m.doc.querySelector('#tab-'+id).click();m.flush();assert.equal(m.doc.querySelector('.bv-page:not([hidden])').id,id);assert.equal(m.doc.querySelectorAll('.bv-tab[tabindex="0"]').length,1);}m.doc.querySelector('#tab-overview').dispatchEvent(new m.w.KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true}));m.flush();assert.equal(m.doc.querySelector('#tab-finance').getAttribute('aria-selected'),'true');for(const name of ['bridge','checks']){const button=m.doc.querySelector(`[data-toggle="${name}"]`);button.click();m.flush();assert.equal(button.getAttribute('aria-expanded'),'true');button.click();m.flush();assert.equal(button.getAttribute('aria-expanded'),'false');}m.doc.querySelector('[data-goto="finance"]').click();m.flush();assert.equal(m.doc.querySelector('#finance').hidden,false);assert.deepEqual(m.errors,[]);}finally{m.dom.window.close();}});
+test('every role and pay combination updates the displayed hire budget',()=>{
+ const m=mount();try{
+  m.doc.querySelector('#tab-hire').click();
+  for(const option of seed.hire_options){
+   const select=m.doc.querySelector('#bv-role');select.value=option.role;select.dispatchEvent(new m.w.Event('change'));
+   for(const level of ['low','market','high']){
+    m.doc.querySelector('[data-level="'+level+'"]').click();m.flush();
+    const row=expected.hire_model.find(x=>x.role===option.role&&x.level===level);
+    const shown=m.doc.querySelector('#kpi-hire-cost [data-field="cost_y1"]').textContent;
+    assert.equal(shown,'$'+new Intl.NumberFormat('en',{notation:'compact',maximumFractionDigits:1}).format(row.cost_y1));
+   }
+  }
+  assert.deepEqual(m.errors,[]);
+ }finally{m.dom.window.close();}
+});
+test('sample label, company attribution and explanations remain available',()=>{const m=mount();try{assert.match(m.doc.querySelector('.bv-brand').textContent,/Owner's Ledger/);assert.match(m.doc.querySelector('.bv-demo').textContent,/SAMPLE/);assert.match(m.doc.querySelector('.bv-brand-name').textContent,/Binary Virtual Solutions/);assert.equal(m.doc.querySelectorAll('.bv-method dt').length,Object.keys(definitions).length);assert.match(m.doc.querySelector('#hire-assumptions').textContent,/collection and payment delays|collection|collected/);}finally{m.dom.window.close();}});
+test('light and dark status labels meet 4.5:1 contrast',()=>{
+ const css=html.match(/<style>([\s\S]*?)<\/style>/)[1];const palettes=[...css.matchAll(/--color-bg: (#[\da-f]{6}); --color-panel: (#[\da-f]{6});[\s\S]*?--color-ok: (#[\da-f]{6}); --color-warn: (#[\da-f]{6}); --color-bad: (#[\da-f]{6});/g)];assert.equal(palettes.length,2);
+ const rgb=h=>h.slice(1).match(/../g).map(x=>parseInt(x,16));const luminance=a=>a.map(n=>{n/=255;return n<=.04045?n/12.92:((n+.055)/1.055)**2.4;}).reduce((n,v,i)=>n+v*[.2126,.7152,.0722][i],0);
+ for(const palette of palettes){const panel=rgb(palette[2]);for(const [index,alpha]of [[3,.14],[4,.16],[5,.14]]){const text=rgb(palette[index]);const background=text.map((c,i)=>c*alpha+panel[i]*(1-alpha));const a=luminance(text),b=luminance(background);const contrast=(Math.max(a,b)+.05)/(Math.min(a,b)+.05);assert.ok(contrast>=4.5,`${palette[index]} pill contrast ${contrast}`);}}
+});
+test('bank comparison opens reserves and handles negative and zero cash',()=>{
+ const m=mount();try{
+  const button=m.doc.querySelector('.bv-cash-bar');button.click();assert.equal(m.doc.querySelector('#reserve-details').open,true);assert.equal(button.getAttribute('aria-expanded'),'true');
+  const original=m.w.dash.data;for(const free of [-10000,0]){m.w.dash.data=id=>id==='ttm'?{status:'ok',data:[{...expected.ttm[0],cash:free===0?0:318000,free_cash:free}]}:original(id);m.w.dash.refresh();m.flush();const bar=m.doc.querySelector('.bv-cash-remaining');assert.equal(bar.style.width,'0%');assert.doesNotMatch(m.doc.querySelector('.bv-bank-visual').textContent,/NaN|Infinity/);}assert.deepEqual(m.errors,[]);
+ }finally{m.dom.window.close();}
+});
+test('waterfall and policy markers retain all valid movements and targets',()=>{
+ const m=mount();try{const movements=expected.bridge.filter(r=>['profit','cash_change'].includes(r.step)||Math.abs(r.amount)>=.5);assert.equal(m.doc.querySelectorAll('.bv-walk-row').length,movements.length);assert.equal(m.doc.querySelectorAll('.bv-bullet-value').length,14);for(const row of m.doc.querySelectorAll('.bv-walk-track i')){assert.ok(parseFloat(row.style.left)>=0);assert.ok(parseFloat(row.style.left)+parseFloat(row.style.width)<=100.00001);}assert.match(m.doc.querySelector('.bv-walk-row[data-step="cash_change"]').textContent,/90,298/);}finally{m.dom.window.close();}
+});
+test('marketing rankings switch without changing the hire pay selection',()=>{
+ const m=mount();try{m.doc.querySelector('[data-channel-metric="cac"]').click();m.flush();const cheapest=[...expected.channel_stats].sort((a,b)=>a.cac-b.cac)[0];assert.equal(m.doc.querySelector('.bv-channel').dataset.channel,cheapest.channel);assert.equal(m.w.dash.params().hire_level,'market');assert.equal(m.doc.querySelector('[data-level="market"]').getAttribute('aria-pressed'),'true');m.doc.querySelector('[data-channel-metric="return_per_dollar"]').click();m.flush();const best=[...expected.channel_stats].sort((a,b)=>b.return_per_dollar-a.return_per_dollar)[0];assert.equal(m.doc.querySelector('.bv-channel').dataset.channel,best.channel);assert.deepEqual(m.errors,[]);}finally{m.dom.window.close();}
+});
+test('team disclosures show matching cost components and hiring updates its annotation',()=>{
+ const m=mount();try{const person=m.doc.querySelector('.bv-person');assert.equal(person.tagName,'DETAILS');assert.equal(person.querySelectorAll('dd').length,5);assert.equal(m.doc.querySelectorAll('#card-profit-trend dl dd').length,12);m.doc.querySelector('[data-level="high"]').click();m.flush();const hire=expected.hire_model.find(r=>r.role==='HVAC service technician'&&r.level==='high');assert.match(m.doc.querySelector('.bv-hire-annotation').textContent,new RegExp('month '+hire.low_month));assert.deepEqual(m.errors,[]);}finally{m.dom.window.close();}
+});
+test('financial detail tabs lead with three compact figures and retains the supporting disclosures',()=>{const m=mount();try{for(const id of ['finance','marketing','team','hire']){const page=m.doc.getElementById(id);const strip=page.querySelector(':scope > .bv-metric-strip');assert.ok(strip,id+' missing compact strip');assert.equal(strip.children.length,3);assert.ok([...page.querySelectorAll('details > summary')].some(el=>el.textContent==='Supporting figures and definitions'));}}finally{m.dom.window.close();}});
+test('search findings distinguish indexing blockers from crawl and canonical review',()=>{
+ const summary=expected.search_health[0];assert.equal(summary.total,6);assert.equal(summary.blocked,2);assert.equal(summary.review,3);
+ const pages=expected.search_pages_calc;assert.equal(pages.find(p=>p.path==='/plumbing/').status,'Watch');assert.match(pages.find(p=>p.path==='/plumbing/').detail,/does not prove/);assert.match(pages.find(p=>p.path==='/heating/').detail,/may choose another/);assert.equal(pages.find(p=>p.path==='/service-areas/').status,'Watch');
+});
+test('Search tab is reachable and keeps actual Google indexing unverified',()=>{
+ const m=mount();try{m.doc.querySelector('#tab-search').click();m.flush();assert.equal(m.doc.querySelector('.bv-page:not([hidden])').id,'search');assert.equal(m.doc.querySelectorAll('.bv-search-page').length,6);assert.match(m.doc.querySelector('#search').textContent,/No live scan/);assert.match(m.doc.querySelector('#search').textContent,/Not connected/);assert.doesNotMatch(m.doc.querySelector('#search').textContent,/guaranteed rankings|lost revenue/i);assert.deepEqual(m.errors,[]);}finally{m.dom.window.close();}
+});
+test('Search findings preserve expansion across redraws',()=>{const m=mount();try{const first=m.doc.querySelector('.bv-search-page');const path=first.dataset.path;first.open=true;m.w.dash.refresh();m.flush();assert.equal([...m.doc.querySelectorAll('.bv-search-page')].find(el=>el.dataset.path===path).open,true);assert.deepEqual(m.errors,[]);}finally{m.dom.window.close();}});
+test('Search surfaces visibility problems without a public remediation plan',()=>{const m=mount();try{const text=m.doc.querySelector('#search').textContent;assert.doesNotMatch(text,/Search improvement plan|redirect|Remove the noindex|Add a useful page title|Connect Search Console/i);assert.match(text,/Customers may miss/);assert.match(text,/has not been measured/);assert.match(text,/business review/);}finally{m.dom.window.close();}});
+test('the active tab scrolls into view in a narrow navigation strip',()=>{const m=mount();try{m.doc.querySelector('#tab-search').click();m.flush();const selected=m.doc.querySelector('#tab-search'),strip=selected.parentElement;strip.getBoundingClientRect=()=>({left:0,right:200});selected.getBoundingClientRect=()=>({left:190,right:240});m.w.dash.refresh();m.flush();assert.equal(strip.scrollLeft,40);selected.getBoundingClientRect=()=>({left:-20,right:30});m.w.dash.refresh();m.flush();assert.equal(strip.scrollLeft,20);assert.deepEqual(m.errors,[]);}finally{m.dom.window.close();}});
