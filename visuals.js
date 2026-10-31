@@ -126,4 +126,18 @@
     if(!row){el.replaceChildren('Scenario unavailable');return;}
     el.replaceChildren(node('span','','Largest modeled deficit: '),node('b','',BV.fmt.money(-row.low_point)+' in month '+row.low_month));
   });
+
+  dash.draw('search_rows', (el) => {
+    const data=source(el); if(!data)return;
+    const opened=new Set([...el.querySelectorAll('details[open]')].map(d=>d.dataset.path));
+    const order={Risk:0,Watch:1,Good:2};
+    el.replaceChildren(...[...data].sort((a,b)=>order[a.status]-order[b.status]).map((p)=>{
+      const detail=node('details','bv-search-page'), summary=node('summary'); detail.dataset.path=p.path; detail.open=opened.has(p.path);
+      summary.append(node('span','',p.page_name),node('span','bv-pill bv-pill--'+p.status,p.label));
+      const body=node('div','bv-note');body.append(node('p','',p.path),node('p','',p.detail));
+      body.append(node('p','','HTTP '+p.http_status+' · '+(p.in_sitemap?'In sample sitemap':'Missing from sample sitemap')+' · '+(p.title_present?'Page title present':'Page title missing')));
+      body.append(node('p','','Google index status: not connected.'));
+      detail.append(summary,body);return detail;
+    }));
+  });
 })();

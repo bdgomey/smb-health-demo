@@ -27,6 +27,8 @@ The Overview compares reserved and remaining cash. Finance explains the profit-t
 
 `visuals.js` contains these interactive renderers. It must ship beside `index.html` and the vendored D3 file.
 
+The Search tab uses fictional `.example` pages to demonstrate indexing rules, crawl restrictions, preferred URLs and discovery issues. It does not connect to Search Console or establish real Google visibility.
+
 ## Scope
 
 Cash coverage requires dated receipts and payments. Hiring uses a contribution scenario before collection delays, with sample capacity, quotes and illustrative E-Z tax timing. Targets are sample policies. Confirm rates and assumptions before using real business data.
