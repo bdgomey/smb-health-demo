@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Owner's Ledger | Business Health</title>
@@ -9,7 +7,7 @@
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600&amp;family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&amp;display=swap">
 <style>
 :root {
   color-scheme: light;
@@ -301,6 +299,14 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
   .bv-hire-annotation b { color: var(--color-bad); }
   .bv-chart-note { font-size: .75rem; color: var(--color-fg-muted); }
   @media (min-width: 760px) { .bv-metric-strip { grid-template-columns: repeat(3,minmax(0,1fr)); } .bv-walk-row { grid-template-columns: minmax(140px,1fr) minmax(0,2fr) 90px; align-items: center; } .bv-walk-track { grid-row: 1; grid-column: 2; } .bv-walk-row b { grid-column: 3; grid-row: 1; text-align: right; } }
+
+  .bv-metric-strip .bv-kpi { padding: 12px 10px; gap: 6px; border-radius: 3px; }
+  .bv-metric-strip .bv-kpi-label { font-size: .75rem; }
+  .bv-metric-strip .bv-kpi-value, .bv-metric-strip .bv-kpi--hero .bv-kpi-value { font-size: clamp(1.2rem,5vw,1.75rem); }
+  .bv-fold .bv-metric-definitions { font-size: .8125rem; color: var(--color-fg-muted); line-height: 1.5; display: grid; gap: 8px; }
+  .bv-fold .bv-metric-definitions dt { font-weight: 600; color: var(--color-fg); }
+  .bv-fold .bv-metric-definitions dd { margin: 0 0 12px; }
+  @media (min-width: 360px) { .bv-metric-strip { grid-template-columns: repeat(3,minmax(0,1fr)); } }
 </style>
 <script src="d3.v7.9.0.min.js"></script>
 <script>
@@ -378,7 +384,7 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
 <noscript><p class="bv-error">Enable JavaScript to calculate this sample dashboard.</p></noscript>
 <div class="bv">
   <header class="bv-head" id="top">
-    <div class="bv-brand"><span class="bv-brand-mark" aria-hidden="true"><svg viewBox="0 0 32 38" fill="none"><path d="M4 3v32h24M10 3h18v26" stroke="currentColor" stroke-width="2.5"/><path d="M10 11h12M10 17h12M10 23h7" stroke="currentColor" stroke-width="2"/></svg></span><div class="bv-brand-name"><b>Owner's Ledger</b><span>By Binary Virtual Solutions</span></div><span class="bv-demo">SAMPLE</span></div>
+    <div class="bv-brand"><span class="bv-brand-mark" aria-hidden="true"><svg viewBox="0 0 32 38" fill="none"><path d="M4 3v32h24M10 3h18v26" stroke="currentColor" stroke-width="2.5"></path><path d="M10 11h12M10 17h12M10 23h7" stroke="currentColor" stroke-width="2"></path></svg></span><div class="bv-brand-name"><b>Owner's Ledger</b><span>By Binary Virtual Solutions</span></div><span class="bv-demo">SAMPLE</span></div>
     <div class="bv-context"><h1 class="bv-title">Riverbend Home Services</h1><span>Sample data · Oct 31, 2026</span></div>
   </header>
 
@@ -430,7 +436,7 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
         <div class="bv-act" data-action="draws" hidden><span class="bv-act-rank" data-draw="v" data-source="actions" data-field="rank" data-where="key=draws" data-fmt="int">...</span><div class="bv-act-body"><p class="bv-act-title">Leave more cash in the business</p><p class="bv-act-text">Draws were <b data-draw="v" data-source="actions" data-field="value" data-where="key=draws" data-fmt="pct0">...</b> of the cash the business made. Keeping to <b data-draw="v" data-source="actions" data-field="target" data-where="key=draws" data-fmt="pct0">...</b> leaves <b data-draw="v" data-source="actions" data-field="impact" data-where="key=draws" data-fmt="moneyk">...</b> in the bank.</p></div></div>
         <div class="bv-act" data-action="team" hidden><span class="bv-act-rank" data-draw="v" data-source="actions" data-field="rank" data-where="key=team" data-fmt="int">...</span><div class="bv-act-body"><p class="bv-act-title">Watch team cost</p><p class="bv-act-text">Team cost is <b data-draw="v" data-source="actions" data-field="value" data-where="key=team" data-fmt="pct">...</b> of revenue, over the <b data-draw="v" data-source="actions" data-field="target" data-where="key=team" data-fmt="pct0">...</b> target by <b data-draw="v" data-source="actions" data-field="impact" data-where="key=team" data-fmt="moneyk">...</b> a year.</p></div></div>
         <div class="bv-act" data-action="franchise" hidden><span class="bv-act-rank" data-draw="v" data-source="actions" data-field="rank" data-where="key=franchise" data-fmt="int">...</span><div class="bv-act-body"><p class="bv-act-title">Plan for the Texas franchise tax</p><p class="bv-act-text">Distance from the planning threshold: <b data-draw="v" data-source="actions" data-field="value" data-where="key=franchise" data-fmt="moneyk">...</b>. Illustrative E-Z exposure: <b data-draw="v" data-source="actions" data-field="impact" data-where="key=franchise" data-fmt="moneyk">...</b> a year; confirm the filing period and method.</p></div></div>
-        <p class="bv-act-none" data-action-none hidden>No priority actions from the available checks. Confirm payment dates.</p>
+        <p class="bv-act-none" data-action-none="" hidden>No priority actions from the available checks. Confirm payment dates.</p>
       </div>
     </div>
 
@@ -439,38 +445,26 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
 
   <!-- FINANCE (CFO) -->
   <section class="bv-page" id="finance" role="tabpanel" aria-labelledby="tab-finance" hidden>
-    <p class="bv-take">Your bank shows <b data-draw="v" data-source="ttm" data-field="cash" data-row="0" data-fmt="moneyk">...</b>. <b data-draw="v" data-source="ttm" data-field="spoken_for" data-row="0" data-fmt="moneyk">...</b> of it is already spoken for, so <b data-draw="v" data-source="ttm" data-field="free_cash" data-row="0" data-fmt="moneyk">...</b> remains after reserves. Over the last 12 months you made <b data-draw="v" data-source="ttm" data-field="net_income" data-row="0" data-fmt="moneyk">...</b> in profit, and the bank balance increased by <b data-draw="v" data-source="ttm" data-field="cash_change" data-row="0" data-fmt="moneyk">...</b> during the period. Checks that need a look: <b data-draw="v" data-source="health_sum" data-field="needs_look" data-row="0" data-fmt="int">...</b>.</p>
-    <div class="bv-kpis bv-kpis--6">
+    <p class="bv-take">Last 12 months · Profit, cash movement and collections.</p>
+    <div class="bv-kpis bv-metric-strip">
       <div class="bv-kpi" id="kpi-free-cash">
         <p class="bv-kpi-label">Cash after reserves</p>
         <p class="bv-kpi-value" data-draw="v" data-source="ttm" data-field="free_cash" data-row="0" data-fmt="moneyk">...</p>
-        <p class="bv-kpi-sub"><span data-draw="v" data-source="ttm" data-field="cash" data-row="0" data-fmt="moneyk">...</span> in the bank, less <span data-draw="v" data-source="ttm" data-field="owed_bills" data-row="0" data-fmt="moneyk">...</span> bills and cards, <span data-draw="v" data-source="ttm" data-field="owed_payroll" data-row="0" data-fmt="moneyk">...</span> wages, payroll and sales tax owed, <span data-draw="v" data-source="ttm" data-field="customer_money" data-row="0" data-fmt="moneyk">...</span> customer deposits and memberships, and <span data-draw="v" data-source="ttm" data-field="tax_reserve" data-row="0" data-fmt="moneyk">...</span> set aside for your income tax</p>
+
       </div>
-      <div class="bv-kpi" id="kpi-next14">
-        <p class="bv-kpi-label">Next 14 days, estimate</p>
-        <p class="bv-kpi-value" data-draw="v" data-source="ttm" data-field="next14" data-row="0" data-fmt="moneyk">...</p>
-        <p class="bv-kpi-sub">Payroll <span data-draw="v" data-source="ttm" data-field="payroll_14" data-row="0" data-fmt="moneyk">...</span>, bills <span data-draw="v" data-source="ttm" data-field="bills_14" data-row="0" data-fmt="moneyk">...</span>, loan payments <span data-draw="v" data-source="ttm" data-field="debt_14" data-row="0" data-fmt="moneyk">...</span>. Receivables under 30 days: <span data-draw="v" data-source="ttm" data-field="ar_under_30" data-row="0" data-fmt="moneyk">...</span> still to collect. Coverage requires actual payment dates.</p>
-      </div>
-      <div class="bv-kpi" id="kpi-cushion">
-        <p class="bv-kpi-label">Cash cushion</p>
-        <p class="bv-kpi-value"><span data-draw="v" data-source="ttm" data-field="runway" data-row="0" data-fmt="num1">...</span> mo</p>
-        <p class="bv-kpi-sub">Cash after reserves divided by monthly fixed costs and principal. Excludes receivables. Plus <span data-draw="v" data-source="ttm" data-field="credit_available" data-row="0" data-fmt="moneyk">...</span> unused credit line</p>
-      </div>
+
+
       <div class="bv-kpi" id="kpi-profit">
         <p class="bv-kpi-label">Profit vs. cash, last 12 months</p>
         <p class="bv-kpi-value" data-draw="v" data-source="ttm" data-field="net_income" data-row="0" data-fmt="moneyk">...</p>
-        <p class="bv-kpi-sub"><span data-draw="v" data-source="ttm" data-field="net_margin" data-row="0" data-fmt="pct">...</span> margin, before your income tax. Free cash flow <span data-draw="v" data-source="ttm" data-field="fcf" data-row="0" data-fmt="moneyk">...</span>; bank balance change after financing and draws: <span data-draw="v" data-source="ttm" data-field="cash_change" data-row="0" data-fmt="moneyk">...</span></p>
+
       </div>
       <div class="bv-kpi" id="kpi-overdue">
         <p class="bv-kpi-label">Customers owe you, over 30 days</p>
         <p class="bv-kpi-value" data-draw="v" data-source="ttm" data-field="ar_over_30" data-row="0" data-fmt="moneyk">...</p>
-        <p class="bv-kpi-sub"><span data-draw="v" data-source="ttm" data-field="ar_over_60" data-row="0" data-fmt="moneyk">...</span> of it is over 60 days. Start with the oldest unpaid invoices</p>
+
       </div>
-      <div class="bv-kpi" id="kpi-owner">
-        <p class="bv-kpi-label">Paid to you, last 12 months</p>
-        <p class="bv-kpi-value" data-draw="v" data-source="ttm" data-field="owner_take" data-row="0" data-fmt="moneyk">...</p>
-        <p class="bv-kpi-sub"><span data-draw="v" data-source="ttm" data-field="owner_salary" data-row="0" data-fmt="moneyk">...</span> salary plus <span data-draw="v" data-source="ttm" data-field="distributions" data-row="0" data-fmt="moneyk">...</span> in draws: <b data-draw="v" data-source="ttm" data-field="draws_vs_cash" data-row="0" data-fmt="pct0">...</b> of the cash the business made after equipment and loans</p>
-      </div>
+
     </div>
 
     <div class="bv-grid">
@@ -559,7 +553,19 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
         <button type="button" class="bv-more" data-toggle="checks" aria-expanded="false"><span data-when="closed">Show all checks</span><span data-when="open" hidden>Show only checks that need a look</span></button>
       </div>
     </div>
-  </section>
+  <details class="bv-fold bv-card"><summary>Supporting figures and definitions</summary><div class="bv-kpis"><div class="bv-kpi" id="kpi-next14">
+        <p class="bv-kpi-label">Next 14 days, estimate</p>
+        <p class="bv-kpi-value" data-draw="v" data-source="ttm" data-field="next14" data-row="0" data-fmt="moneyk">...</p>
+        <p class="bv-kpi-sub">Payroll <span data-draw="v" data-source="ttm" data-field="payroll_14" data-row="0" data-fmt="moneyk">...</span>, bills <span data-draw="v" data-source="ttm" data-field="bills_14" data-row="0" data-fmt="moneyk">...</span>, loan payments <span data-draw="v" data-source="ttm" data-field="debt_14" data-row="0" data-fmt="moneyk">...</span>. Receivables under 30 days: <span data-draw="v" data-source="ttm" data-field="ar_under_30" data-row="0" data-fmt="moneyk">...</span> still to collect. Coverage requires actual payment dates.</p>
+      </div><div class="bv-kpi" id="kpi-cushion">
+        <p class="bv-kpi-label">Cash cushion</p>
+        <p class="bv-kpi-value"><span data-draw="v" data-source="ttm" data-field="runway" data-row="0" data-fmt="num1">...</span> mo</p>
+        <p class="bv-kpi-sub">Cash after reserves divided by monthly fixed costs and principal. Excludes receivables. Plus <span data-draw="v" data-source="ttm" data-field="credit_available" data-row="0" data-fmt="moneyk">...</span> unused credit line</p>
+      </div><div class="bv-kpi" id="kpi-owner">
+        <p class="bv-kpi-label">Paid to you, last 12 months</p>
+        <p class="bv-kpi-value" data-draw="v" data-source="ttm" data-field="owner_take" data-row="0" data-fmt="moneyk">...</p>
+        <p class="bv-kpi-sub"><span data-draw="v" data-source="ttm" data-field="owner_salary" data-row="0" data-fmt="moneyk">...</span> salary plus <span data-draw="v" data-source="ttm" data-field="distributions" data-row="0" data-fmt="moneyk">...</span> in draws: <b data-draw="v" data-source="ttm" data-field="draws_vs_cash" data-row="0" data-fmt="pct0">...</b> of the cash the business made after equipment and loans</p>
+      </div></div><dl class="bv-metric-definitions"><dt>Cash after reserves</dt><dd><p class="bv-kpi-sub"><span data-draw="v" data-source="ttm" data-field="cash" data-row="0" data-fmt="moneyk">...</span> in the bank, less <span data-draw="v" data-source="ttm" data-field="owed_bills" data-row="0" data-fmt="moneyk">...</span> bills and cards, <span data-draw="v" data-source="ttm" data-field="owed_payroll" data-row="0" data-fmt="moneyk">...</span> wages, payroll and sales tax owed, <span data-draw="v" data-source="ttm" data-field="customer_money" data-row="0" data-fmt="moneyk">...</span> customer deposits and memberships, and <span data-draw="v" data-source="ttm" data-field="tax_reserve" data-row="0" data-fmt="moneyk">...</span> set aside for your income tax</p></dd><dt>Profit vs. cash, last 12 months</dt><dd><p class="bv-kpi-sub"><span data-draw="v" data-source="ttm" data-field="net_margin" data-row="0" data-fmt="pct">...</span> margin, before your income tax. Free cash flow <span data-draw="v" data-source="ttm" data-field="fcf" data-row="0" data-fmt="moneyk">...</span>; bank balance change after financing and draws: <span data-draw="v" data-source="ttm" data-field="cash_change" data-row="0" data-fmt="moneyk">...</span></p></dd><dt>Customers owe you, over 30 days</dt><dd><p class="bv-kpi-sub"><span data-draw="v" data-source="ttm" data-field="ar_over_60" data-row="0" data-fmt="moneyk">...</span> of it is over 60 days. Start with the oldest unpaid invoices</p></dd></dl></details></section>
 
   <!-- MARKETING -->
   <section class="bv-page" id="marketing" role="tabpanel" aria-labelledby="tab-marketing" hidden>
@@ -567,33 +573,21 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
       <div class="bv-kpi bv-kpi--hero" id="kpi-mkt-per-dollar">
         <p class="bv-kpi-label">Marketing spent per $1 of revenue, last 12 months</p>
         <p class="bv-kpi-value" data-draw="v" data-source="mkt" data-field="mkt_per_dollar" data-row="0" data-fmt="cents">...</p>
-        <p class="bv-kpi-sub"><span data-draw="v" data-source="mkt" data-field="spend" data-row="0" data-fmt="moneyk">...</span> on marketing against <span data-draw="v" data-source="ttm" data-field="revenue" data-row="0" data-fmt="moneyk">...</span> in total revenue.</p>
+
       </div>
       <div class="bv-kpi" id="kpi-mkt-return">
         <p class="bv-kpi-label">New-customer revenue per $1 of marketing</p>
         <p class="bv-kpi-value" data-draw="v" data-source="mkt" data-field="return_per_dollar" data-row="0" data-fmt="money2">...</p>
-        <p class="bv-kpi-sub">First-year sales from customers each channel brought in</p>
+
       </div>
       <div class="bv-kpi" id="kpi-cac">
         <p class="bv-kpi-label">Cost to win a customer</p>
-        <p class="bv-kpi-value" data-draw="v" data-source="mkt" data-field="cac" data-row="0" data-fmt="money">...</p>
-        <p class="bv-kpi-sub"><span data-draw="v" data-source="mkt" data-field="cpl" data-row="0" data-fmt="money">...</span> per lead, <span data-draw="v" data-source="mkt" data-field="close_rate" data-row="0" data-fmt="pct0">...</span> of leads become customers</p>
+        <p class="bv-kpi-value" data-draw="v" data-source="mkt" data-field="cac" data-row="0" data-fmt="moneyk">...</p>
+
       </div>
-      <div class="bv-kpi" id="kpi-ltv">
-        <p class="bv-kpi-label">Customer value vs. cost to win</p>
-        <p class="bv-kpi-value" data-draw="v" data-source="mkt" data-field="ltv_cac" data-row="0" data-fmt="x1">...</p>
-        <p class="bv-kpi-sub">Gross profit, after materials and field labor, over <span data-draw="v" data-source="mkt" data-field="customer_years" data-row="0" data-fmt="int">...</span> years, <span data-draw="v" data-source="mkt" data-field="ltv" data-row="0" data-fmt="money">...</span> a customer. Illustrative retention assumption.</p>
-      </div>
-      <div class="bv-kpi" id="kpi-gp-per-dollar">
-        <p class="bv-kpi-label">Gross profit per $1 of marketing</p>
-        <p class="bv-kpi-value" data-draw="v" data-source="mkt" data-field="gp_per_dollar" data-row="0" data-fmt="money2">...</p>
-        <p class="bv-kpi-sub">What is left of that revenue after materials and field labor</p>
-      </div>
-      <div class="bv-kpi" id="kpi-mkt-share">
-        <p class="bv-kpi-label">Leads, last 12 months</p>
-        <p class="bv-kpi-value" data-draw="v" data-source="mkt" data-field="leads" data-row="0" data-fmt="int">...</p>
-        <p class="bv-kpi-sub"><span data-draw="v" data-source="mkt" data-field="customers" data-row="0" data-fmt="int">...</span> became new customers</p>
-      </div>
+
+
+
     </div>
 
     <div class="bv-grid">
@@ -625,39 +619,48 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
         <div class="bv-chart" data-draw="mkt_chart" data-source="monthly_calc">...</div>
       </div>
     </div>
-  </section>
+  <details class="bv-fold bv-card"><summary>Supporting figures and definitions</summary><div class="bv-kpis"><div class="bv-kpi" id="kpi-ltv">
+        <p class="bv-kpi-label">Customer value vs. cost to win</p>
+        <p class="bv-kpi-value" data-draw="v" data-source="mkt" data-field="ltv_cac" data-row="0" data-fmt="x1">...</p>
+        <p class="bv-kpi-sub">Gross profit, after materials and field labor, over <span data-draw="v" data-source="mkt" data-field="customer_years" data-row="0" data-fmt="int">...</span> years, <span data-draw="v" data-source="mkt" data-field="ltv" data-row="0" data-fmt="money">...</span> a customer. Illustrative retention assumption.</p>
+      </div><div class="bv-kpi" id="kpi-gp-per-dollar">
+        <p class="bv-kpi-label">Gross profit per $1 of marketing</p>
+        <p class="bv-kpi-value" data-draw="v" data-source="mkt" data-field="gp_per_dollar" data-row="0" data-fmt="money2">...</p>
+        <p class="bv-kpi-sub">What is left of that revenue after materials and field labor</p>
+      </div><div class="bv-kpi" id="kpi-mkt-share">
+        <p class="bv-kpi-label">Leads, last 12 months</p>
+        <p class="bv-kpi-value" data-draw="v" data-source="mkt" data-field="leads" data-row="0" data-fmt="int">...</p>
+        <p class="bv-kpi-sub"><span data-draw="v" data-source="mkt" data-field="customers" data-row="0" data-fmt="int">...</span> became new customers</p>
+      </div></div><dl class="bv-metric-definitions"><dt>Marketing spent per $1 of revenue, last 12 months</dt><dd><p class="bv-kpi-sub"><span data-draw="v" data-source="mkt" data-field="spend" data-row="0" data-fmt="moneyk">...</span> on marketing against <span data-draw="v" data-source="ttm" data-field="revenue" data-row="0" data-fmt="moneyk">...</span> in total revenue.</p></dd><dt>New-customer revenue per $1 of marketing</dt><dd><p class="bv-kpi-sub">First-year sales from customers each channel brought in</p></dd><dt>Cost to win a customer</dt><dd><p class="bv-kpi-sub"><span data-draw="v" data-source="mkt" data-field="cpl" data-row="0" data-fmt="money">...</span> per lead, <span data-draw="v" data-source="mkt" data-field="close_rate" data-row="0" data-fmt="pct0">...</span> of leads become customers</p></dd></dl></details></section>
 
   <!-- TEAM -->
   <section class="bv-page" id="team" role="tabpanel" aria-labelledby="tab-team" hidden>
     <div class="bv-kpis bv-metric-strip">
       <div class="bv-kpi bv-kpi--hero" id="kpi-team-total">
         <p class="bv-kpi-label">Total cost of your team, per year, all in</p>
-        <p class="bv-kpi-value" data-draw="v" data-source="team_sum" data-field="total" data-row="0" data-fmt="money">...</p>
-        <p class="bv-kpi-sub"><span data-draw="v" data-source="team_sum" data-field="headcount" data-row="0" data-fmt="int">...</span> people. Wages are <span data-draw="v" data-source="team_sum" data-field="wages" data-row="0" data-fmt="moneyk">...</span>; taxes, benefits, insurance, vehicles and tools add the rest.</p>
+        <p class="bv-kpi-value" data-draw="v" data-source="team_sum" data-field="total" data-row="0" data-fmt="moneyk">...</p>
+
       </div>
-      <div class="bv-kpi" id="kpi-multiplier">
-        <p class="bv-kpi-label">Real cost of $1 in wages</p>
-        <p class="bv-kpi-value" data-draw="v" data-source="team_sum" data-field="multiplier" data-row="0" data-fmt="money2">...</p>
-        <p class="bv-kpi-sub">Across the whole team</p>
-      </div>
+
       <div class="bv-kpi" id="kpi-labor-share">
         <p class="bv-kpi-label">Team cost share of revenue</p>
         <p class="bv-kpi-value" data-draw="v" data-source="team_sum" data-field="labor_pct" data-row="0" data-fmt="pct">...</p>
-        <p class="bv-kpi-sub">Last 12 months</p>
+
       </div>
       <div class="bv-kpi" id="kpi-rpe">
         <p class="bv-kpi-label">Revenue per person</p>
         <p class="bv-kpi-value" data-draw="v" data-source="team_sum" data-field="rev_per_employee" data-row="0" data-fmt="moneyk">...</p>
-        <p class="bv-kpi-sub">Last 12 months</p>
+
       </div>
-      <div class="bv-kpi" id="kpi-avg">
-        <p class="bv-kpi-label">Average cost per person</p>
-        <p class="bv-kpi-value" data-draw="v" data-source="team_sum" data-field="avg_total" data-row="0" data-fmt="moneyk">...</p>
-        <p class="bv-kpi-sub">Per year, all in</p>
-      </div>
+
     </div>
 
-    <div class="bv-grid">
+    <div class="bv-grid"><div class="bv-card bv-card--wide" id="card-people">
+        <h2 class="bv-h2">Where does each person’s budget go?</h2>
+        <p class="bv-sub">Per year, all in. "Per worked hour" spreads the total over hours actually on the job, after paid time off, holidays and training.</p>
+        <ul class="bv-legend"><li><span class="bv-sw" data-swatch="0"></span>Wages</li><li><span class="bv-sw" data-swatch="1"></span>Payroll taxes</li><li><span class="bv-sw" data-swatch="2"></span>Benefits and insurance</li><li><span class="bv-sw" data-swatch="3"></span>Trucks, tools, tech, training</li></ul>
+        <div class="bv-people" data-draw="people" data-source="team_cost">...</div>
+      </div>
       <div class="bv-card" id="card-team-parts">
         <h2 class="bv-h2">Where team money goes</h2>
         <p class="bv-sub">Per year, whole team.</p>
@@ -675,18 +678,21 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
         </div>
       </div>
 
-      <div class="bv-card" id="card-people">
-        <h2 class="bv-h2">Where does each person’s budget go?</h2>
-        <p class="bv-sub">Per year, all in. "Per worked hour" spreads the total over hours actually on the job, after paid time off, holidays and training.</p>
-        <ul class="bv-legend"><li><span class="bv-sw" data-swatch="0"></span>Wages</li><li><span class="bv-sw" data-swatch="1"></span>Payroll taxes</li><li><span class="bv-sw" data-swatch="2"></span>Benefits and insurance</li><li><span class="bv-sw" data-swatch="3"></span>Trucks, tools, tech, training</li></ul>
-        <div class="bv-people" data-draw="people" data-source="team_cost">...</div>
-      </div>
+
     </div>
-  </section>
+  <details class="bv-fold bv-card"><summary>Supporting figures and definitions</summary><div class="bv-kpis"><div class="bv-kpi" id="kpi-multiplier">
+        <p class="bv-kpi-label">Real cost of $1 in wages</p>
+        <p class="bv-kpi-value" data-draw="v" data-source="team_sum" data-field="multiplier" data-row="0" data-fmt="money2">...</p>
+        <p class="bv-kpi-sub">Across the whole team</p>
+      </div><div class="bv-kpi" id="kpi-avg">
+        <p class="bv-kpi-label">Average cost per person</p>
+        <p class="bv-kpi-value" data-draw="v" data-source="team_sum" data-field="avg_total" data-row="0" data-fmt="moneyk">...</p>
+        <p class="bv-kpi-sub">Per year, all in</p>
+      </div></div><dl class="bv-metric-definitions"><dt>Total cost of your team, per year, all in</dt><dd><p class="bv-kpi-sub"><span data-draw="v" data-source="team_sum" data-field="headcount" data-row="0" data-fmt="int">...</span> people. Wages are <span data-draw="v" data-source="team_sum" data-field="wages" data-row="0" data-fmt="moneyk">...</span>; taxes, benefits, insurance, vehicles and tools add the rest.</p></dd><dt>Team cost share of revenue</dt><dd><p class="bv-kpi-sub">Last 12 months</p></dd><dt>Revenue per person</dt><dd><p class="bv-kpi-sub">Last 12 months</p></dd></dl></details></section>
 
   <!-- NEXT HIRE -->
   <section class="bv-page" id="hire" role="tabpanel" aria-labelledby="tab-hire" hidden>
-    <details class="bv-fold bv-note"><summary>Scenario assumptions</summary><p>Sample pay, benefits, revenue capacity and insurance quotes. Revenue is treated as collected in the same month; actual funding needs can be higher. Existing crew capacity must support sales and dispatcher hires. Tax uses an illustrative all-Texas E-Z scenario, not a tax filing forecast. Actual unemployment rates and job margins need owner inputs.</p></details>
+
     <div class="bv-card" id="card-hire-controls">
       <h2 class="bv-h2">What would one more hire do?</h2>
       <div class="bv-controls">
@@ -709,29 +715,21 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
     <div class="bv-kpis bv-metric-strip">
       <div class="bv-kpi bv-kpi--hero" id="kpi-hire-cost">
         <p class="bv-kpi-label">First-year hire budget</p>
-        <p class="bv-kpi-value" data-draw="hv" data-source="hire_model" data-field="cost_y1" data-fmt="money">...</p>
-        <p class="bv-kpi-sub"><b data-draw="hv" data-source="hire_model" data-field="monthly_all_in" data-fmt="money">...</b> a month at capacity, including marketing, before franchise tax. First-year budget is <b data-draw="hv" data-source="hire_model" data-field="budget_multiplier" data-fmt="money2">...</b> for every $1 of pay.</p>
+        <p class="bv-kpi-value" data-draw="hv" data-source="hire_model" data-field="cost_y1" data-fmt="moneyk">...</p>
+
       </div>
       <div class="bv-kpi" id="kpi-hire-net">
         <p class="bv-kpi-label">First-year contribution, estimate</p>
         <p class="bv-kpi-value" data-draw="hdelta" data-source="hire_model" data-field="net_y1" data-fmt="smoneyk">...</p>
-        <p class="bv-kpi-sub">Then <b data-draw="hdelta" data-source="hire_model" data-field="net_monthly_full" data-fmt="smoney">...</b> a month at capacity, before franchise tax</p>
+
       </div>
-      <div class="bv-kpi" id="kpi-hire-payback">
-        <p class="bv-kpi-label">Sustained payback, estimate</p>
-        <p class="bv-kpi-value" data-draw="hv" data-source="hire_model" data-field="breakeven_month" data-fmt="month">...</p>
-        <p class="bv-kpi-sub">Stays above zero through the 24-month scenario</p>
-      </div>
+
       <div class="bv-kpi" id="kpi-hire-low">
         <p class="bv-kpi-label">Largest modeled deficit</p>
         <p class="bv-kpi-value" data-draw="hv" data-source="hire_model" data-field="low_point" data-fmt="moneyk">...</p>
-        <p class="bv-kpi-sub">In month <span data-draw="hv" data-source="hire_model" data-field="low_month" data-fmt="int">...</span>. Cash after reserves: <span data-draw="v" data-source="ttm" data-field="free_cash" data-row="0" data-fmt="moneyk">...</span>.</p>
+
       </div>
-      <div class="bv-kpi" id="kpi-hire-hour">
-        <p class="bv-kpi-label">Recurring cost per worked hour</p>
-        <p class="bv-kpi-value" data-draw="hv" data-source="hire_model" data-field="per_hour" data-fmt="money">...</p>
-        <p class="bv-kpi-sub">Against <span data-draw="hv" data-source="hire_model" data-field="wage_per_hour" data-fmt="money2">...</span> an hour in pay</p>
-      </div>
+
     </div>
 
     <div class="bv-grid">
@@ -808,7 +806,15 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
         </section>
       </div>
     </div>
-  </section>
+  <details class="bv-fold bv-card"><summary>Supporting figures and definitions</summary><div class="bv-kpis"><div class="bv-kpi" id="kpi-hire-payback">
+        <p class="bv-kpi-label">Sustained payback, estimate</p>
+        <p class="bv-kpi-value" data-draw="hv" data-source="hire_model" data-field="breakeven_month" data-fmt="month">...</p>
+        <p class="bv-kpi-sub">Stays above zero through the 24-month scenario</p>
+      </div><div class="bv-kpi" id="kpi-hire-hour">
+        <p class="bv-kpi-label">Recurring cost per worked hour</p>
+        <p class="bv-kpi-value" data-draw="hv" data-source="hire_model" data-field="per_hour" data-fmt="money">...</p>
+        <p class="bv-kpi-sub">Against <span data-draw="hv" data-source="hire_model" data-field="wage_per_hour" data-fmt="money2">...</span> an hour in pay</p>
+      </div></div><dl class="bv-metric-definitions"><dt>First-year hire budget</dt><dd><p class="bv-kpi-sub"><b data-draw="hv" data-source="hire_model" data-field="monthly_all_in" data-fmt="money">...</b> a month at capacity, including marketing, before franchise tax. First-year budget is <b data-draw="hv" data-source="hire_model" data-field="budget_multiplier" data-fmt="money2">...</b> for every $1 of pay.</p></dd><dt>First-year contribution, estimate</dt><dd><p class="bv-kpi-sub">Then <b data-draw="hdelta" data-source="hire_model" data-field="net_monthly_full" data-fmt="smoney">...</b> a month at capacity, before franchise tax</p></dd><dt>Largest modeled deficit</dt><dd><p class="bv-kpi-sub">In month <span data-draw="hv" data-source="hire_model" data-field="low_month" data-fmt="int">...</span>. Cash after reserves: <span data-draw="v" data-source="ttm" data-field="free_cash" data-row="0" data-fmt="moneyk">...</span>.</p></dd></dl></details><details class="bv-fold bv-note" id="hire-assumptions"><summary>Scenario assumptions</summary><p>Sample pay, benefits, revenue capacity and insurance quotes. Revenue is treated as collected in the same month; actual funding needs can be higher. Existing crew capacity must support sales and dispatcher hires. Tax uses an illustrative all-Texas E-Z scenario, not a tax filing forecast. Actual unemployment rates and job margins need owner inputs.</p></details></section>
 </div>
 
 <script>
@@ -1591,5 +1597,6 @@ dash.draw('rate_rows', (el) => {
 
 <script src="visuals.js"></script>
 <script>dash.__start();</script>
-</body>
-</html>
+
+
+</body></html>
